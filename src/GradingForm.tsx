@@ -48,7 +48,7 @@ const GradingForm = () => {
         <label htmlFor="blines">B-Lines vereinzelnd &lt; 4 Lines</label>
       </FormRow>
       <FormRow>
-        <Button large>Submit</Button>
+        <Button large>Abschicken</Button>
       </FormRow>
     </StyledForm>
   );

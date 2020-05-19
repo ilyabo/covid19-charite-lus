@@ -38,7 +38,7 @@ const Welcome = () => {
         Prospective analysis of inter-observer and intra-observer variability
         in standardized lung ultrasound of patients with confirmed diagnosis of SARS-CoV 2
       </Title>
-      <Login />
+      <Login large={true} />
       <Subtitle>
         Studienverantwortliche für Fragen:
         <div>

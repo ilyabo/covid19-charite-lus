@@ -17,6 +17,7 @@
     "formik": "^2.1.4",
     "google-spreadsheet": "^3.0.11",
     "netlify-identity-widget": "^1.6.0",
+    "node-fetch": "^2.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-netlify-identity": "^0.2.5",

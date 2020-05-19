@@ -30,8 +30,8 @@ const PrivateRoute: React.FunctionComponent<Props> = (props: Props) => {
 
 const LogoutBoxLayout = styled.div`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
 `;
 
 const LogoutBox = () => {

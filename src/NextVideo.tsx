@@ -5,12 +5,19 @@ import { useAsyncRetry } from 'react-use';
 import { useIdentityContext } from 'react-netlify-identity';
 import GradingForm from './GradingForm';
 import Button from './Button';
+import Login from './Login';
 
 
-interface VideoEntry {
-  id: string;
-  url: string;
-}
+type NextVideoResponse =
+  | {
+    status: 'NEXT'
+    url: string;
+    numTotal: number;
+    numDone: number;
+  }
+  | {
+    status: 'ALL_DONE'
+  }
 
 
 const Outer = styled.div`
@@ -25,7 +32,23 @@ const Outer = styled.div`
   & > *+* { margin-left: 40px; }
 `;
 
+const Progress = styled.div`
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: small;
+`;
 
+
+
+const AllDoneOuter = styled.div`
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  & > *+* { margin-top: 20px; }
+`;
 
 const VideoOuter = styled.div`
   max-width: 800px;
@@ -47,6 +70,15 @@ const ErrorOuter = styled.div`
 `;
 
 
+const ErrorBox: React.FC<{ text: string, retry: () => void }> = ({ text, retry }) =>
+  <ErrorOuter>
+    <div>{text}</div>
+    <div>
+      <Button onClick={retry}>
+        Nochmals versuchen
+      </Button>
+    </div>
+  </ErrorOuter>
 
 const NextVideo = () => {
   const { user } = useIdentityContext();
@@ -67,33 +99,49 @@ const NextVideo = () => {
       console.error(nextVideoFetch.error);
       throw new Error(await response.text());
     }
-    return (await response.json()) as VideoEntry;
+    return (await response.json()) as NextVideoResponse;
   }, []);
 
 
+  const { loading, error, value } = nextVideoFetch;
 
   return (
     <Outer>
-        {nextVideoFetch.loading
+        {loading
           ? `Das nächste Video wird geladen…`
-          : nextVideoFetch.error
-          ? <ErrorOuter>
-              <div>Das Video konnte leider nicht geladen werden…</div>
-              <div>
-                <Button onClick={() => nextVideoFetch.retry()}>
-                  Nochmals versuchen
-                </Button>
-              </div>
-            </ErrorOuter>
-          :
-          <>
-            <VideoOuter>
-            <DemoVideo preload="auto" autoPlay={true} controls loop>
-              <source src={nextVideoFetch.value?.url} />
-            </DemoVideo>
-            </VideoOuter>
-            <GradingForm/>
-          </>
+          : error
+          ? <ErrorBox
+              text="Das Video konnte leider nicht geladen werden…"
+              retry={() => nextVideoFetch.retry()}
+            />
+          : value?.status === 'ALL_DONE'
+            ? <AllDoneOuter>
+                <div>
+                  Das war's!
+                  Sie haben schon alle Videos angeschaut.
+                </div>
+                <div>
+                  Vielen Dank für Ihre Zeit!
+                </div>
+                <Login large={true} />
+              </AllDoneOuter>
+            : value?.status === 'NEXT'
+              ? <>
+                {value?.numDone != null &&
+                <Progress>
+                  {value.numDone + 1} von {value.numTotal}
+                </Progress>}
+                <VideoOuter>
+                  <DemoVideo preload="auto" autoPlay={true} controls loop>
+                    <source src={value?.url} />
+                  </DemoVideo>
+                </VideoOuter>
+                <GradingForm/>
+              </>
+             : <ErrorBox
+                  text="Oops… Etwas stimmt nicht…"
+                  retry={() => nextVideoFetch.retry()}
+                />
        }
 
     </Outer>

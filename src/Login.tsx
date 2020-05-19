@@ -4,7 +4,7 @@ import netlifyIdentity from 'netlify-identity-widget';
 import Button from './Button';
 
 
-const Login: React.FC = (props) => {
+const Login: React.FC<{ large?: boolean }> = ({ large }) => {
   const { isLoggedIn } = useIdentityContext();
   useEffect(() => {
     netlifyIdentity.init();
@@ -21,7 +21,7 @@ const Login: React.FC = (props) => {
   };
   return (
     <Button
-      large={!isLoggedIn}
+      large={large}
       onClick={handleIdentity}>
       {isLoggedIn ? 'Abmelden' : 'Anmelden'}
     </Button>
