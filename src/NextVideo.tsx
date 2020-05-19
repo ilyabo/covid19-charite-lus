@@ -6,6 +6,7 @@ import { useIdentityContext } from 'react-netlify-identity';
 import GradingForm, { GradingFormValues } from './GradingForm';
 import Button from './Button';
 import Login from './Login';
+import netlifyIdentity from 'netlify-identity-widget';
 
 
 type NextVideoResponse =
@@ -70,6 +71,11 @@ const ErrorOuter = styled.div`
   & > *+* { margin-top: 20px; }
 `;
 
+const SmallError = styled.div`
+  max-width: 300px;
+  margin-top: 20px;
+`;
+
 
 async function fetchApi(endpoint: string, user: any, opts?: any) {
   if (!user || !user.token?.access_token) {
@@ -88,9 +94,13 @@ async function fetchApi(endpoint: string, user: any, opts?: any) {
     }
   );
   if (!response.ok) {
+    if (response.status === 401) {
+      netlifyIdentity.open();
+      // document.location.href = '/home';
+    }
     // TODO: enforce log out if the response is 401 "Unauthorized")
     const errorText = await response.text();
-    console.error(errorText);
+    console.error('API fetch error: ' + errorText);
     throw new Error(errorText);
   }
   return await response.json();
@@ -141,25 +151,24 @@ const NextVideo: React.FC<{}> = (props) => {
 
   return (
     <Outer>
-      {/*<div>{JSON.stringify(submitState)}</div>*/}
-        {loading
-          ? `Das nächste Video wird geladen…`
-          : error
+      {loading
+        ? `Das nächste Video wird geladen…`
+        : error
           ? <ErrorBox
-              text="Das Video konnte leider nicht geladen werden…"
-              retry={() => nextVideoFetch.retry()}
-            />
+            text="Das Video konnte leider nicht geladen werden…"
+            retry={() => nextVideoFetch.retry()}
+          />
           : value?.status === 'ALL_DONE'
             ? <AllDoneOuter>
-                <div>
-                  Das war's!
-                  Sie haben schon alle Videos angeschaut.
-                </div>
-                <div>
-                  Vielen Dank für Ihre Zeit!
-                </div>
-                <Login large={true} />
-              </AllDoneOuter>
+              <div>
+                Das war's!
+                Sie haben schon alle Videos angeschaut.
+              </div>
+              <div>
+                Vielen Dank für Ihre Zeit!
+              </div>
+              <Login large={true} />
+            </AllDoneOuter>
             : value?.status === 'NEXT'
               ? <>
                 {value.numDone != null &&
@@ -171,16 +180,21 @@ const NextVideo: React.FC<{}> = (props) => {
                     <source src={value.url} />
                   </DemoVideo>
                 </VideoOuter>
-                <GradingForm
-                  disabled={submitState.loading}
-                  onSubmit={formValues => handleSubmit(formValues, value.name)}
-                />
+                <div>
+                  <GradingForm
+                    disabled={submitState.loading}
+                    onSubmit={formValues => handleSubmit(formValues, value.name)}
+                  />
+                  {!submitState.loading && submitState.error &&
+                  <SmallError>Oops… Etwas ist schief gelaufen. Probieren Sie es bitte nochmals.</SmallError>
+                  }
+                </div>
               </>
-             : <ErrorBox
-                  text="Oops… Etwas stimmt nicht…"
-                  retry={() => nextVideoFetch.retry()}
-                />
-       }
+              : <ErrorBox
+                text="Oops… Etwas stimmt nicht…"
+                retry={() => nextVideoFetch.retry()}
+              />
+      }
 
     </Outer>
   )
