@@ -38,7 +38,7 @@ function pickNextVideo(submissionsByVideo, videos) {
   const toPickFrom = [];
   for (const v of videos) {
     const numSubmissions = submissionsByVideo.get(v.name)
-    if (numSubmissions < NUM_OF_REPETITIONS) {
+    if (numSubmissions == null || numSubmissions < NUM_OF_REPETITIONS) {
       toPickFrom.push(v);
     }
   }
