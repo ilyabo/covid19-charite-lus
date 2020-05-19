@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { VIDEOS_SHEET, loadSpreadsheet, findSheetByName } = require('./spreadsheet');
+const { loadSpreadsheet, findSheetByName } = require('./spreadsheet');
 
 const NUM_OF_REPETITIONS = +process.env.VIDEOS_NUM_OF_REPETITIONS || 1;
 const GOOGLE_VIDEOS_BUCKET = process.env.GOOGLE_VIDEOS_BUCKET;
@@ -70,7 +70,7 @@ exports.handler = async (event, context, callback) => {
       const nextVideo = pickNextVideo(submissionsByVideo, videos);
       body = {
         status: 'NEXT',
-        id: nextVideo.name,
+        name: nextVideo.name,
         url: nextVideo.mediaLink,
         numDone,
         numTotal,

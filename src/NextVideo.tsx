@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { API_ROOT } from './index';
-import { useAsyncRetry } from 'react-use';
+import { useAsyncFn, useAsyncRetry } from 'react-use';
 import { useIdentityContext } from 'react-netlify-identity';
-import GradingForm from './GradingForm';
+import GradingForm, { GradingFormValues } from './GradingForm';
 import Button from './Button';
 import Login from './Login';
 
@@ -11,6 +11,7 @@ import Login from './Login';
 type NextVideoResponse =
   | {
     status: 'NEXT'
+    name: string;
     url: string;
     numTotal: number;
     numDone: number;
@@ -70,6 +71,31 @@ const ErrorOuter = styled.div`
 `;
 
 
+async function fetchApi(endpoint: string, user: any, opts?: any) {
+  if (!user || !user.token?.access_token) {
+    throw new Error('Not authenticated');
+  }
+  const response = await fetch(
+    `${API_ROOT}/${endpoint}`,
+    {
+      ...opts,
+      headers: new Headers({
+        ...opts?.headers,
+         Accept: 'application/json',
+         'Content-Type': 'application/json',
+         Authorization: 'Bearer ' + user?.token?.access_token,
+      }),
+    }
+  );
+  if (!response.ok) {
+    // TODO: enforce log out if the response is 401 "Unauthorized")
+    const errorText = await response.text();
+    console.error(errorText);
+    throw new Error(errorText);
+  }
+  return await response.json();
+}
+
 const ErrorBox: React.FC<{ text: string, retry: () => void }> = ({ text, retry }) =>
   <ErrorOuter>
     <div>{text}</div>
@@ -80,33 +106,42 @@ const ErrorBox: React.FC<{ text: string, retry: () => void }> = ({ text, retry }
     </div>
   </ErrorOuter>
 
-const NextVideo = () => {
+
+const NextVideo: React.FC<{}> = (props) => {
+
   const { user } = useIdentityContext();
-
   const nextVideoFetch = useAsyncRetry(async () => {
-    const response = await fetch(
-      `${API_ROOT}/get-next-video`,
-      {
-        headers: new Headers({
-           Accept: 'application/json',
-           'Content-Type': 'application/json',
-           Authorization: 'Bearer ' + user?.token.access_token,
-        })
-      }
-    );
-    if (!response.ok) {
-      // TODO: enforce log out if the response is 401 "Unauthorized")
-      console.error(nextVideoFetch.error);
-      throw new Error(await response.text());
-    }
-    return (await response.json()) as NextVideoResponse;
-  }, []);
+    return await fetchApi('get-next-video', user) as NextVideoResponse;
+  }, [user]);
 
+  const [submitState, submitFetch] = useAsyncFn(async (values: GradingFormValues) => {
+    if (nextVideoFetch?.value?.status === 'NEXT') {
+      return await fetchApi('add-submission', user, {
+        method: 'POST',
+        body: JSON.stringify({
+          values,
+          video: nextVideoFetch.value.name,
+        }),
+      });
+    }
+  }, [nextVideoFetch.value]);
+
+
+  const handleSubmit = (formValues: GradingFormValues, videoName: string) => {
+    submitFetch(formValues);
+  };
+
+  useEffect(() => {
+    if (!submitState.loading && submitState?.value?.status === 'ok') {
+      nextVideoFetch.retry();
+    }
+  }, [submitState])
 
   const { loading, error, value } = nextVideoFetch;
 
   return (
     <Outer>
+      {/*<div>{JSON.stringify(submitState)}</div>*/}
         {loading
           ? `Das nächste Video wird geladen…`
           : error
@@ -127,16 +162,19 @@ const NextVideo = () => {
               </AllDoneOuter>
             : value?.status === 'NEXT'
               ? <>
-                {value?.numDone != null &&
+                {value.numDone != null &&
                 <Progress>
                   {value.numDone + 1} von {value.numTotal}
                 </Progress>}
                 <VideoOuter>
                   <DemoVideo preload="auto" autoPlay={true} controls loop>
-                    <source src={value?.url} />
+                    <source src={value.url} />
                   </DemoVideo>
                 </VideoOuter>
-                <GradingForm/>
+                <GradingForm
+                  disabled={submitState.loading}
+                  onSubmit={formValues => handleSubmit(formValues, value.name)}
+                />
               </>
              : <ErrorBox
                   text="Oops… Etwas stimmt nicht…"

@@ -3,7 +3,11 @@ import styled from '@emotion/styled';
 const primaryColor = '#479675';
 const primaryColorLighter = '#54b48d';
 
-const Button = styled.a<{large?: boolean}>(({ large }) => `
+const Button = styled.a<
+  {
+    disabled?: boolean;
+    large?: boolean
+  }>(({ disabled, large }) => `
   ${large 
   ? `
     font-size: large;
@@ -17,11 +21,17 @@ const Button = styled.a<{large?: boolean}>(({ large }) => `
   border-radius: 4px;
   cursor: pointer;
   color: white;
+  ${disabled 
+  ? `
+  background-color: #999;
+  `
+  :`
   background-color: ${primaryColor};
   transition: background-color 0.2s;
   &:hover {
     background-color: ${primaryColorLighter};
   }
+  `}
 `);
 
 export default Button;

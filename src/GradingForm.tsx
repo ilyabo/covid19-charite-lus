@@ -15,20 +15,29 @@ const FormRow = styled.div`
   & > *+* { margin-left: 5px; }
 `;
 
-const GradingForm = () => {
+export type GradingFormValues = any;
+
+const GradingForm: React.FC<
+  {
+    disabled?: boolean;
+    onSubmit: (values: GradingFormValues) => void;
+  }
+> = (props) => {
+  const { disabled } = props;
   const formik = useFormik({
     initialValues: {
       pleuraverdickung: undefined,
       blines: undefined,
     },
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      props.onSubmit(values);
     },
   });
   return (
     <StyledForm onSubmit={formik.handleSubmit}>
       <FormRow>
         <input
+          disabled={disabled}
           id="pleuraverdickung"
           name="pleuraverdickung"
           type="checkbox"
@@ -39,6 +48,7 @@ const GradingForm = () => {
       </FormRow>
       <FormRow>
         <input
+          disabled={disabled}
           id="blines"
           name="blines"
           type="checkbox"
@@ -48,7 +58,11 @@ const GradingForm = () => {
         <label htmlFor="blines">B-Lines vereinzelnd &lt; 4 Lines</label>
       </FormRow>
       <FormRow>
-        <Button large>Abschicken</Button>
+        <Button
+          disabled={props.disabled}
+          large={true}
+          onClick={props.disabled ? undefined : () => formik.submitForm()}
+        >Abschicken</Button>
       </FormRow>
     </StyledForm>
   );
