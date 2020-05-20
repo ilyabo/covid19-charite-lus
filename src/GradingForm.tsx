@@ -82,7 +82,6 @@ const GradingForm: React.FC<
       props.onSubmit(values);
     },
   });
-  console.log(formik)
   return (
     <Outer>
       <StyledForm onSubmit={formik.handleSubmit}>
