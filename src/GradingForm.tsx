@@ -53,12 +53,12 @@ const GradingForm: React.FC<
   const { disabled } = props;
   const formik = useFormik({
     initialValues: {
-      pleuraverdickung: false,
-      blines1: false,
-      blines2: false,
-      subpkons: false,
-      aerobronch: false,
-      alines: false,
+      pat_pleuraverdickung: false,
+      pat_blines1: false,
+      pat_blines2: false,
+      pat_subpkons: false,
+      pat_aerobronch: false,
+      pat_alines: false,
       lusscore: undefined,
     },
     validate: values => {
@@ -67,7 +67,14 @@ const GradingForm: React.FC<
       if (lusscore == null) {
         errors.lusscore = 'Sie müssen einen Score auswählen';
       } else if (lusscore! > 0) {
-        errors.lusscore = 'Bei LUS-Score >0 sollte es auch Pathologien geben';
+        const hasPathology = Object.keys(values)
+          .filter(k => k.startsWith('pat_'))
+        // @ts-ignore
+          .map((k: string) => values[k])
+          .some(v => !!v);
+        if (!hasPathology) {
+          errors.lusscore = 'Bei LUS-Score >0 sollte es auch Pathologien geben';
+        }
       }
       return errors;
     },
@@ -85,57 +92,57 @@ const GradingForm: React.FC<
             <FormRow>
               <input
                 disabled={disabled}
-                id="pleuraverdickung"
-                name="pleuraverdickung"
+                id="pat_pleuraverdickung"
+                name="pat_pleuraverdickung"
                 type="checkbox"
                 onChange={formik.handleChange}
-                value={`${formik.values.pleuraverdickung}`}
+                value={`${formik.values.pat_pleuraverdickung}`}
               />
-              <label htmlFor="pleuraverdickung">Pleuraverdickung/ Pleurafragmentierung</label>
+              <label htmlFor="pat_pleuraverdickung">Pleuraverdickung/ Pleurafragmentierung</label>
             </FormRow>
             <FormRow>
               <input
                 disabled={disabled}
-                id="blines1"
-                name="blines1"
+                id="pat_blines1"
+                name="pat_blines1"
                 type="checkbox"
                 onChange={formik.handleChange}
-                value={`${formik.values.blines1}`}
+                value={`${formik.values.pat_blines1}`}
               />
-              <label htmlFor="blines1">B-Lines vereinzelnd &lt; 4 Lines</label>
+              <label htmlFor="pat_blines1">B-Lines vereinzelnd &lt; 4 Lines</label>
             </FormRow>
             <FormRow>
               <input
                 disabled={disabled}
-                id="blines2"
-                name="blines2"
+                id="pat_blines2"
+                name="pat_blines2"
                 type="checkbox"
                 onChange={formik.handleChange}
-                value={`${formik.values.blines2}`}
+                value={`${formik.values.pat_blines2}`}
               />
-              <label htmlFor="blines2">B-Lines konfluierend</label>
+              <label htmlFor="pat_blines2">B-Lines konfluierend</label>
             </FormRow>
             <FormRow>
               <input
                 disabled={disabled}
-                id="subpkons"
-                name="subpkons"
+                id="pat_subpkons"
+                name="pat_subpkons"
                 type="checkbox"
                 onChange={formik.handleChange}
-                value={`${formik.values.subpkons}`}
+                value={`${formik.values.pat_subpkons}`}
               />
-              <label htmlFor="subpkons">Subpleurale Konsolidierung</label>
+              <label htmlFor="pat_subpkons">Subpleurale Konsolidierung</label>
             </FormRow>
             <FormRow>
               <input
                 disabled={disabled}
-                id="aerobronch"
-                name="aerobronch"
+                id="pat_aerobronch"
+                name="pat_aerobronch"
                 type="checkbox"
                 onChange={formik.handleChange}
-                value={`${formik.values.aerobronch}`}
+                value={`${formik.values.pat_aerobronch}`}
               />
-              <label htmlFor="aerobronch">Aerobronchogramm</label>
+              <label htmlFor="pat_aerobronch">Aerobronchogramm</label>
             </FormRow>
           </FieldsetItems>
         </Fieldset>

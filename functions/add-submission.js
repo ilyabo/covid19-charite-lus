@@ -21,12 +21,12 @@ exports.handler = async (event, context, callback) => {
           'video',
           'time',
           'lusscore',
-          'pleuraverdickung',
-          'blines1',
-          'blines2',
-          'subpkons',
-          'aerobronch',
-          'alines',
+          'pat_pleuraverdickung',
+          'pat_blines1',
+          'pat_blines2',
+          'pat_subpkons',
+          'pat_aerobronch',
+          'pat_alines',
         ],
       });
     }
