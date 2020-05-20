@@ -1,4 +1,7 @@
 const { loadSpreadsheet, findSheetByName } = require('./spreadsheet');
+const { DateTime } = require('luxon');
+
+const DATE_OUTPUT_TIME_ZONE = 'Europe/Berlin';
 
 exports.handler = async (event, context, callback) => {
   const user = context.clientContext && context.clientContext.user;
@@ -17,20 +20,25 @@ exports.handler = async (event, context, callback) => {
         headerValues: [
           'video',
           'time',
+          'lusscore',
           'pleuraverdickung',
-          'blines vereinzelnd',
-          'blines konfluierend',
-          'a-lines',
-          'multiple b-lines',
+          'blines1',
+          'blines2',
+          'subpkons',
+          'aerobronch',
+          'alines',
         ],
       });
     }
 
     const body = JSON.parse(event.body);
     await sheet.addRow({
-      ...body
+      ...body.values,
+      video: body.video,
+      time: DateTime.local()
+        .setZone(DATE_OUTPUT_TIME_ZONE)
+        .toSQL(),
     })
-    console.log(JSON.stringify(body))
 
     return {
       statusCode: 200,

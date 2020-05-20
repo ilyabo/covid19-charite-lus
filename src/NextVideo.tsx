@@ -29,9 +29,15 @@ const Outer = styled.div`
   display: flex;
   justify-items: center;
   align-items: center;
-  flex-direction: row;
   justify-content: center;
-  & > *+* { margin-left: 40px; }
+  @media(min-width: 800px) {
+    flex-direction: row;
+    & > *+* { margin-left: 40px; }
+  }
+  @media(max-width: 800px) {
+    flex-direction: column;
+    & > *+* { margin-top: 10px; }
+  } 
 `;
 
 const Progress = styled.div`
@@ -40,8 +46,6 @@ const Progress = styled.div`
   top: 10px;
   font-size: small;
 `;
-
-
 
 const AllDoneOuter = styled.div`
   display: flex;
@@ -53,6 +57,7 @@ const AllDoneOuter = styled.div`
 `;
 
 const VideoOuter = styled.div`
+  flex-grow: 1;
   max-width: 800px;
 `;
 
@@ -186,7 +191,7 @@ const NextVideo: React.FC<{}> = (props) => {
                     onSubmit={formValues => handleSubmit(formValues, value.name)}
                   />
                   {!submitState.loading && submitState.error &&
-                  <SmallError>Oops… Etwas ist schief gelaufen. Probieren Sie es bitte nochmals.</SmallError>
+                  <SmallError>Oops… Etwas ist schief gelaufen. Versuchen Sie es bitte nochmals.</SmallError>
                   }
                 </div>
               </>
