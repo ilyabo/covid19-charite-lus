@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
 import Button from './Button';
@@ -30,6 +30,9 @@ const FormRow = styled.div`
   display: flex;
   flex-direction: row;
   & > *+* { margin-left: 5px; }
+  & input:focus {
+    outline: 2px solid rgba(0, 103, 244, 1.0);     
+  }
 `;
 
 const Comment = styled.div`
@@ -82,6 +85,8 @@ const GradingForm: React.FC<
       props.onSubmit(values);
     },
   });
+  const firstFieldRef = useRef<HTMLInputElement>(null );
+  useEffect(() => firstFieldRef.current?.focus(), [firstFieldRef]);
   return (
     <Outer>
       <StyledForm onSubmit={formik.handleSubmit}>
@@ -90,6 +95,7 @@ const GradingForm: React.FC<
           <FieldsetItems>
             <FormRow>
               <input
+                ref={firstFieldRef}
                 disabled={disabled}
                 id="pat_pleuraverdickung"
                 name="pat_pleuraverdickung"
@@ -222,6 +228,7 @@ const GradingForm: React.FC<
       </StyledForm>
       <FormRow>
         <Button
+          type="submit"
           disabled={props.disabled}
           large={true}
           onClick={props.disabled ? undefined : () => formik.submitForm()}

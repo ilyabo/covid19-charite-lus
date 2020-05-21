@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Button from './Button';
-import { Link } from 'react-router-dom';
+import { ButtonLink } from './Button';
 
 
 const Outer = styled.div`
@@ -46,7 +45,7 @@ const Home = () => {
     </section>
 
     <StartSection>
-      <Link to="/next-video"><Button large>Beginnen</Button></Link>
+      <ButtonLink large to="/next-video">Beginnen</ButtonLink>
     </StartSection>
   </Outer>
 };
