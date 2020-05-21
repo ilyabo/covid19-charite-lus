@@ -103,7 +103,9 @@ async function fetchApi(endpoint: string, user: any, opts?: any) {
   );
   if (!response.ok) {
     if (response.status === 401) {
-      netlifyIdentity.open();
+      // Workaround for refreshing the auth token:
+      document.location.reload();
+      // netlifyIdentity.open();
       // document.location.href = '/home';
     }
     // TODO: enforce log out if the response is 401 "Unauthorized")
