@@ -25,16 +25,18 @@ type NextVideoResponse =
 const Outer = styled.div`
   position: absolute;
   width: 100%;
-  height: 100%;
   display: flex;
   justify-items: center;
   align-items: center;
   justify-content: center;
   @media(min-width: 800px) {
+    height: 100%;
     flex-direction: row;
     & > *+* { margin-left: 40px; }
   }
   @media(max-width: 800px) {
+    padding: 60px 0px 20px 0px;
+    box-sizing: border-box;
     flex-direction: column;
     & > *+* { margin-top: 10px; }
   } 
@@ -59,6 +61,7 @@ const AllDoneOuter = styled.div`
 const VideoOuter = styled.div`
   flex-grow: 1;
   max-width: 800px;
+  position: relative;
 `;
 
 
