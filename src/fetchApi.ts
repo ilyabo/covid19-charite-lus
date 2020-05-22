@@ -1,4 +1,5 @@
 import { API_ROOT } from './index';
+import netlifyIdentity from 'netlify-identity-widget';
 
 export default async function fetchApi(endpoint: string, user: any, opts?: any) {
   if (!user || !user.token?.access_token) {
@@ -19,9 +20,11 @@ export default async function fetchApi(endpoint: string, user: any, opts?: any) 
   if (!response.ok) {
     if (response.status === 401) {
       // Workaround for refreshing the auth token:
-      document.location.reload();
+      // document.location.reload();
       // netlifyIdentity.open();
-      // document.location.href = '/home';
+      // @ts-ignore
+      // netlifyIdentity.refresh();
+      netlifyIdentity.logout();
     }
     // TODO: enforce log out if the response is 401 "Unauthorized")
     const errorText = await response.text();
