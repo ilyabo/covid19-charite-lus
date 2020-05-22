@@ -61,7 +61,7 @@ function App() {
             <PublicRoute path="/welcome" component={Welcome} />
             {/*<PublicRoute path="/createaccount" component={CreateAccount} />*/}
             {/*<PublicRoute path="/login" component={LogIn} />*/}
-            <PrivateRoute path="/home" component={() => <QuestionnaireCheck><Home/></QuestionnaireCheck>} />
+            <PrivateRoute path="/home" component={Home} />
             <PrivateRoute path="/questionnaire" component={() => <QuestionnaireCheck><Questionnaire/></QuestionnaireCheck>} />
             <PrivateRoute path="/next-video" component={NextVideo} />
           </Switch>
