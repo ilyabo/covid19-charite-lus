@@ -32,12 +32,20 @@ const LogoutBoxLayout = styled.div`
   position: absolute;
   top: 15px;
   right: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  & > a { font-size: small; }
+  & > *+* { margin-left: 20px; }
 `;
 
 const LogoutBox = () => {
   const { isLoggedIn } = useIdentityContext();
   return isLoggedIn
-    ? <LogoutBoxLayout><Login /></LogoutBoxLayout>
+    ? <LogoutBoxLayout>
+         <a href="mailto:frederic.muench@charite.de?subject=LUS study" target="_blank">Fragen?</a>
+        <Login />
+      </LogoutBoxLayout>
     : null;
 };
 
