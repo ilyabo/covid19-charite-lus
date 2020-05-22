@@ -217,7 +217,7 @@ const GradingForm: React.FC<
               <label htmlFor="lusscore-3">
                 3: Complete loss of aeration
                 <Comment>
-                Subpleurale Konsolidierung
+                  Lung consolidation, with or without air bronchograms
                 </Comment>
               </label>
             </FormRow>
