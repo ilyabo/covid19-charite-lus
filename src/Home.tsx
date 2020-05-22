@@ -7,7 +7,10 @@ const Outer = styled.div`
   padding: 100px;
   display: flex;
   flex-direction: column;
-  & > *+* { margin-top: 50px; }
+  & > *+* { margin-top: 50px; }  
+  & ul > li {
+    margin-top: 10px;
+  }
 `;
 
 const StartSection = styled.div`
@@ -20,27 +23,20 @@ const Home = () => {
 
   return <Outer>
     <section>
-      <p>
-        Study name:
-        Prospective analysis of inter-observer and intra-observer variability in standardized lung ultrasound of patients
-        with confirmed diagnosis of SARS-CoV 2.
-      </p>
+      Dear observers, thank you for taking part in this intra- and interobserver study using our tool.
 
       <p>
-        Context & Purpose:
-        Lung ultrasound (LUS) is known for 15-20 years especially in point-of-care (POC) application in intensive care
-        units and emergency room. Recently in context of the SARS-CoV-2 pandemic it has received even more attention.
-        Advantages include reducing ionizing radiation (vs CT), less transport of critically ill patients (better for
-        patient as transport always is a risk and in terms of contamination also better for stuff in radiology and people
-        crossing while transporting), done by treating physician (direct feedback), and other. Also, ARDS/viral pneumonia
-        in COVID-19 seems to affect mostly peripheral lung areas, which can easily be displayed on LUS. Also in terms of
-        pandemics more stuff that didn’t use such techniques before will be new users. (many sources online).
-      </p>
-
-      <p>
-        As such, it is important to know how reproducible such diagnostic and progress examinations are. We attempt to let
-        experienced (lung) ultrasound users (observers=readers=users) analyze loops of COVID-19 lung ultrasound images to
-        assess inter- and intra-observer variability.
+        Here some instructions regarding the tool:
+        <ul>
+          <li>There are a total of 100 different loops of LUS of COVID patients on ICU.</li>
+          <li>Each loop will appear 4 times.</li>
+          <li>The order of appearance will be random for each observer (which also means that by chance you might get the same loop twice one after another).</li>
+          <li>The loops are labeled as R1-R6 (right thorax) and L1-L6 (left thorax) simulating that you are having the ultrasound probe in your hand (see picture below) and know where you are looking (even though it doesn't play an essential role for this analysis).</li>
+          <li>Pathologies: either select “Keine” or check all the pathologies you see (you can check more than 1 pathology!).</li>
+          <li>LUS Score: you must select one.</li>
+          <li>After grading the loop and clicking submit you cannot go back.</li>
+          <li>You can stop and leave the page at any time. When logging in again you will start where you left until you have graded the 400 loops.</li>
+        </ul>
       </p>
     </section>
 
