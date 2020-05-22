@@ -23,8 +23,8 @@ export default async function fetchApi(endpoint: string, user: any, opts?: any) 
       // document.location.reload();
       // netlifyIdentity.open();
       // @ts-ignore
-      // netlifyIdentity.refresh();
-      netlifyIdentity.logout();
+      netlifyIdentity.refresh();
+      // netlifyIdentity.logout();
     }
     // TODO: enforce log out if the response is 401 "Unauthorized")
     const errorText = await response.text();
