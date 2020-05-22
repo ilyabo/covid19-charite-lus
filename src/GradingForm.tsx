@@ -35,6 +35,9 @@ const FormRow = styled.div`
     outline: 2px solid rgba(0, 103, 244, 1.0);     
   }
 `;
+const SubmitRow = styled(FormRow)`
+  justify-content: flex-start;          
+`;
 
 const HRule = styled.hr`
   width: 100%;
@@ -191,6 +194,7 @@ const GradingForm: React.FC<
                 type="radio"
                 onChange={formik.handleChange}
                 value="0"
+                checked={formik.values.lusscore === '0'}
               />
               <label htmlFor="lusscore-0">
                 0: Normal aeration
@@ -205,6 +209,7 @@ const GradingForm: React.FC<
                 type="radio"
                 onChange={formik.handleChange}
                 value="1"
+                checked={formik.values.lusscore === '1'}
               />
               <label htmlFor="lusscore-1">
                 1: Moderate loss of aeration
@@ -222,6 +227,7 @@ const GradingForm: React.FC<
                 type="radio"
                 onChange={formik.handleChange}
                 value="2"
+                checked={formik.values.lusscore === '2'}
               />
               <label htmlFor="lusscore-2">
                 2: Severe loss of aeration
@@ -238,6 +244,7 @@ const GradingForm: React.FC<
                 type="radio"
                 onChange={formik.handleChange}
                 value="3"
+                checked={formik.values.lusscore === '3'}
               />
               <label htmlFor="lusscore-3">
                 3: Complete loss of aeration
@@ -251,14 +258,14 @@ const GradingForm: React.FC<
 
 
       </StyledForm>
-      <FormRow>
+      <SubmitRow>
         <Button
           type="submit"
           disabled={props.disabled}
           large={true}
           onClick={props.disabled ? undefined : () => formik.submitForm()}
-        >Abschicken</Button>
-      </FormRow>
+        >Submit</Button>
+      </SubmitRow>
     </Outer>
   );
 };
