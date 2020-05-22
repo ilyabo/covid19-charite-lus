@@ -115,27 +115,20 @@ const Questionnaire: React.FC<{}> = (props) => {
   const formik = useFormik({
     initialValues: {
       ErfahrungJahre: '',
-      ErfahrungJahre_unzutreffend: false,
       ErfahrungArzt: null,
       Fachrichtung: null,
       ErfahrungSonoJahre: '',
-      ErfahrungSonoJahre_unzutreffend: false,
       Sonographien: null,
       LUS_insgesamt: null,
       LUS_COVID19: null,
       LUS_COVID19_Anzahl: '',
-      LUS_COVID19_Anzahl_unzutreffend: false,
     },
     validate: (values: any) => {
       const errors: any = {};
       for (const field of fieldNames) {
         const v = values[field];
-        if (values[`${field}_unzutreffend`]) {
-          formik.setFieldValue(field, '', false);
-        } else {
-          if (v == null || !(`${v}`.trim().length > 0)) {
-            errors[field] = `“${field}” ist ein Pflichtfeld`;
-          }
+        if (v == null || !(`${v}`.trim().length > 0)) {
+          errors[field] = `“${field}” ist ein Pflichtfeld`;
         }
       }
 
@@ -175,22 +168,11 @@ const Questionnaire: React.FC<{}> = (props) => {
                   name="ErfahrungJahre"
                   type="text"
                   onChange={formik.handleChange}
-                  disabled={disabled || formik.values.ErfahrungJahre_unzutreffend}
+                  disabled={disabled}
                   value={formik.values.ErfahrungJahre}
                   style={{ width: 30, fontSize: '15px' }}
                 />
                 <label>Jahre</label>
-              </FormItem>
-              <FormItem>
-                <input
-                  id="ErfahrungJahre_unzutreffend"
-                  name="ErfahrungJahre_unzutreffend"
-                  type="checkbox"
-                  onChange={formik.handleChange}
-                  disabled={disabled}
-                  checked={formik.values.ErfahrungJahre_unzutreffend}
-                />
-                <label htmlFor="ErfahrungJahre_unzutreffend">unzutreffend</label>
               </FormItem>
             </FormRow>
             <FormRow>
@@ -302,23 +284,12 @@ const Questionnaire: React.FC<{}> = (props) => {
                   id="ErfahrungSonoJahre"
                   name="ErfahrungSonoJahre"
                   type="text"
-                  disabled={disabled || formik.values.ErfahrungSonoJahre_unzutreffend}
+                  disabled={disabled}
                   onChange={formik.handleChange}
                   value={formik.values.ErfahrungSonoJahre}
                   style={{ width: 30, fontSize: '15px' }}
                 />
                 <label>Jahre</label>
-              </FormItem>
-              <FormItem>
-                <input
-                  id="ErfahrungSonoJahre_unzutreffend"
-                  name="ErfahrungSonoJahre_unzutreffend"
-                  type="checkbox"
-                  onChange={formik.handleChange}
-                  disabled={disabled}
-                  checked={formik.values.ErfahrungSonoJahre_unzutreffend}
-                />
-                <label htmlFor="ErfahrungSonoJahre_unzutreffend">unzutreffend</label>
               </FormItem>
             </FormRow>
             {formik.touched.ErfahrungSonoJahre && formik.errors.ErfahrungSonoJahre &&
@@ -368,6 +339,18 @@ const Questionnaire: React.FC<{}> = (props) => {
                     checked={formik.values.Sonographien === '>10000'}
                   />
                   <label htmlFor="Sonographien_10000">&gt; 10000</label>
+                </RadioItem>
+                <RadioItem>
+                  <input
+                    id="Sonographien_unzutreffend"
+                    name="Sonographien"
+                    type="radio"
+                    disabled={disabled}
+                    onChange={formik.handleChange}
+                    value="unzutreffend"
+                    checked={formik.values.Sonographien === 'unzutreffend'}
+                  />
+                  <label htmlFor="Sonographien_unzutreffend">unzutreffend</label>
                 </RadioItem>
               </FormItem>
             </FormRow>
@@ -419,6 +402,18 @@ const Questionnaire: React.FC<{}> = (props) => {
                   />
                   <label htmlFor="lus_insgesamt_1000">&gt; 1000</label>
                 </RadioItem>
+                <RadioItem>
+                  <input
+                    id="lus_insgesamt_unzutreffend"
+                    name="LUS_insgesamt"
+                    type="radio"
+                    disabled={disabled}
+                    onChange={formik.handleChange}
+                    value="unzutreffend"
+                    checked={formik.values.LUS_insgesamt === 'unzutreffend'}
+                  />
+                  <label htmlFor="lus_insgesamt_unzutreffend">unzutreffend</label>
+                </RadioItem>
               </FormItem>
             </FormRow>
             {formik.touched.LUS_insgesamt && formik.errors.LUS_insgesamt &&
@@ -469,13 +464,25 @@ const Questionnaire: React.FC<{}> = (props) => {
                   />
                   <label htmlFor="lus_covid19_300">&gt; 300</label>
                 </RadioItem>
+                <RadioItem>
+                  <input
+                    id="lus_covid19_unzutreffend"
+                    name="LUS_COVID19"
+                    type="radio"
+                    disabled={disabled}
+                    onChange={formik.handleChange}
+                    value="unzutreffend"
+                    checked={formik.values.LUS_COVID19 === 'unzutreffend'}
+                  />
+                  <label htmlFor="lus_covid19_unzutreffend">unzutreffend</label>
+                </RadioItem>
               </FormItem>
             </FormRow>
             <FormRow>
               <FormItem error={!!(formik.touched.LUS_COVID19_Anzahl && formik.errors.LUS_COVID19_Anzahl)}>
                 <label>Geschätzte Anzahl:</label>
                 <input
-                  disabled={disabled || formik.values.LUS_COVID19_Anzahl_unzutreffend}
+                  disabled={disabled}
                   id="LUS_COVID19_Anzahl"
                   name="LUS_COVID19_Anzahl"
                   type="text"
@@ -483,17 +490,6 @@ const Questionnaire: React.FC<{}> = (props) => {
                   value={formik.values.LUS_COVID19_Anzahl}
                   style={{ width: 60, fontSize: '15px' }}
                 />
-              </FormItem>
-              <FormItem>
-                <input
-                  id="LUS_COVID19_Anzahl_unzutreffend"
-                  name="LUS_COVID19_Anzahl_unzutreffend"
-                  type="checkbox"
-                  onChange={formik.handleChange}
-                  disabled={disabled}
-                  checked={formik.values.LUS_COVID19_Anzahl_unzutreffend}
-                />
-                <label htmlFor="LUS_COVID19_Anzahl_unzutreffend">unzutreffend</label>
               </FormItem>
             </FormRow>
             {formik.touched.LUS_COVID19 && formik.errors.LUS_COVID19 &&
