@@ -98,7 +98,6 @@ const GradingForm: React.FC<
       props.onSubmit(values);
     },
   });
-  console.log(formik.values)
   const firstFieldRef = useRef<HTMLInputElement>(null );
   useEffect(() => firstFieldRef.current?.focus(), [firstFieldRef]);
   return (
