@@ -1,7 +1,15 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet')
+const { DateTime } = require('luxon');
 
-exports.VIDEOS_SHEET = 'videos';
-exports.GRADING_SHEET = 'grading';
+exports.QUESTIONNAIRE_SHEET = 'questionnaire';
+
+const DATE_OUTPUT_TIME_ZONE = 'Europe/Berlin';
+
+exports.getNowFormatted = (date) => {
+  return DateTime.local()
+    .setZone(DATE_OUTPUT_TIME_ZONE)
+    .toSQL();
+}
 
 exports.findSheetByName = async (doc, name, isRequired) => {
   const sheet = doc.sheetsByIndex.find(s => s.title === name);

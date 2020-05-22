@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { API_ROOT } from './index';
 import { useAsyncFn, useAsyncRetry } from 'react-use';
 import { useIdentityContext } from 'react-netlify-identity';
 import GradingForm, { GradingFormValues } from './GradingForm';
 import Button from './Button';
 import Login from './Login';
-import netlifyIdentity from 'netlify-identity-widget';
+import fetchApi from './fetchApi';
+import Spinner from './Spinner';
+import { errorColor } from './colors';
+import { ErrorBox } from './errors';
 
 
 type NextVideoResponse =
@@ -42,6 +44,15 @@ const Outer = styled.div`
   } 
 `;
 
+
+const LoadingOuter = styled.div`
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  & > *+* { margin-top: 20px; }
+`;
+
 const Progress = styled.div`
   position: absolute;
   left: 10px;
@@ -70,73 +81,23 @@ const DemoVideo = styled.video`
   height: 100%;
 `;
 
-const ErrorOuter = styled.div`
-  display: flex;
-  justify-items: center;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  & > *+* { margin-top: 20px; }
-`;
-
 const SmallError = styled.div`
+  color: ${errorColor};
   max-width: 300px;
   margin-top: 20px;
 `;
-
-
-async function fetchApi(endpoint: string, user: any, opts?: any) {
-  if (!user || !user.token?.access_token) {
-    throw new Error('Not authenticated');
-  }
-  const response = await fetch(
-    `${API_ROOT}/${endpoint}`,
-    {
-      ...opts,
-      headers: new Headers({
-        ...opts?.headers,
-         Accept: 'application/json',
-         'Content-Type': 'application/json',
-         Authorization: 'Bearer ' + user?.token?.access_token,
-      }),
-    }
-  );
-  if (!response.ok) {
-    if (response.status === 401) {
-      // Workaround for refreshing the auth token:
-      document.location.reload();
-      // netlifyIdentity.open();
-      // document.location.href = '/home';
-    }
-    // TODO: enforce log out if the response is 401 "Unauthorized")
-    const errorText = await response.text();
-    console.error('API fetch error: ' + errorText);
-    throw new Error(errorText);
-  }
-  return await response.json();
-}
-
-const ErrorBox: React.FC<{ text: string, retry: () => void }> = ({ text, retry }) =>
-  <ErrorOuter>
-    <div>{text}</div>
-    <div>
-      <Button onClick={retry}>
-        Nochmals versuchen
-      </Button>
-    </div>
-  </ErrorOuter>
 
 
 const NextVideo: React.FC<{}> = (props) => {
 
   const { user } = useIdentityContext();
   const nextVideoFetch = useAsyncRetry(async () => {
-    return await fetchApi('get-next-video', user) as NextVideoResponse;
+    return await fetchApi('video-next', user) as NextVideoResponse;
   }, [user]);
 
   const [submitState, submitFetch] = useAsyncFn(async (values: GradingFormValues) => {
     if (nextVideoFetch?.value?.status === 'NEXT') {
-      return await fetchApi('add-submission', user, {
+      return await fetchApi('video-submit', user, {
         method: 'POST',
         body: JSON.stringify({
           values,
@@ -162,7 +123,10 @@ const NextVideo: React.FC<{}> = (props) => {
   return (
     <Outer>
       {loading
-        ? `Das nächste Video wird geladen…`
+        ? <LoadingOuter>
+            <div>Das nächste Video wird geladen…</div>
+            <Spinner/>
+          </LoadingOuter>
         : error
           ? <ErrorBox
             text="Das Video konnte leider nicht geladen werden…"
@@ -192,7 +156,7 @@ const NextVideo: React.FC<{}> = (props) => {
                 </VideoOuter>
                 <div>
                   <GradingForm
-                    disabled={submitState.loading}
+                    isLoading={submitState.loading}
                     onSubmit={formValues => handleSubmit(formValues, value.name)}
                   />
                   {!submitState.loading && submitState.error &&

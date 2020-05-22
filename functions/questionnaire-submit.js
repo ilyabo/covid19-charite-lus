@@ -1,9 +1,9 @@
-const { loadSpreadsheet, findSheetByName } = require('./spreadsheet');
-const { DateTime } = require('luxon');
+const { QUESTIONNAIRE_SHEET, getNowFormatted, loadSpreadsheet, findSheetByName } = require('./common');
 
-const DATE_OUTPUT_TIME_ZONE = 'Europe/Berlin';
+const fieldNames = require('../src/questionnaireFields.json');
 
 exports.handler = async (event, context, callback) => {
+    console.log(JSON.parse(event.body));
   const user = context.clientContext && context.clientContext.user;
   if (!user) {
     return {
@@ -13,21 +13,12 @@ exports.handler = async (event, context, callback) => {
   }
   try {
     const doc = await loadSpreadsheet();
-    let sheet = await findSheetByName(doc, user.email, false);
+    let sheet = await findSheetByName(doc, QUESTIONNAIRE_SHEET, false);
     if (!sheet) {
       sheet = await doc.addSheet({
-        title: user.email,
+        title: QUESTIONNAIRE_SHEET,
         headerValues: [
-          'video',
-          'time',
-          'lusscore',
-          'pat_none',
-          'pat_pleuraverdickung',
-          'pat_blines1',
-          'pat_blines2',
-          'pat_subpkons',
-          'pat_aerobronch',
-          'pat_alines',
+          'user', 'time', ...fieldNames
         ],
       });
     }
@@ -35,11 +26,10 @@ exports.handler = async (event, context, callback) => {
     const body = JSON.parse(event.body);
     await sheet.addRow({
       ...body.values,
-      video: body.video,
-      time: DateTime.local()
-        .setZone(DATE_OUTPUT_TIME_ZONE)
-        .toSQL(),
-    })
+      user: user.email,
+      time: getNowFormatted(),
+    });
+
 
     return {
       statusCode: 200,

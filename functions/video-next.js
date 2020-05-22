@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { loadSpreadsheet, findSheetByName } = require('./spreadsheet');
+const { loadSpreadsheet, findSheetByName } = require('./common');
 
 const NUM_OF_REPETITIONS = +process.env.VIDEOS_NUM_OF_REPETITIONS || 1;
 const GOOGLE_VIDEOS_BUCKET = process.env.GOOGLE_VIDEOS_BUCKET;

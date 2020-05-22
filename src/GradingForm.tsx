@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
 import Button from './Button';
-import { primaryColorLighter } from './colors';
+import { errorColor, primaryColorLighter } from './colors';
+import Spinner from './Spinner';
 
 const Outer = styled.div`
   display: flex;
@@ -37,6 +38,7 @@ const FormRow = styled.div`
 `;
 const SubmitRow = styled(FormRow)`
   justify-content: flex-start;          
+  & > *+* { margin-left: 15px; }
 `;
 
 const HRule = styled.hr`
@@ -52,18 +54,18 @@ const Comment = styled.div`
 `;
 
 const FieldError = styled.div`
-  color: red;
+  color: ${errorColor};
 `;
 
 export type GradingFormValues = any;
 
 const GradingForm: React.FC<
   {
-    disabled?: boolean;
+    isLoading?: boolean;
     onSubmit: (values: GradingFormValues) => void;
   }
 > = (props) => {
-  const { disabled } = props;
+  const { isLoading } = props;
   const formik = useFormik({
     initialValues: {
       pat_none: false,
@@ -112,7 +114,7 @@ const GradingForm: React.FC<
             <FormRow>
               <input
                 ref={firstFieldRef}
-                disabled={disabled}
+                disabled={isLoading}
                 id="pat_none"
                 name="pat_none"
                 type="checkbox"
@@ -124,7 +126,7 @@ const GradingForm: React.FC<
             <HRule />
             <FormRow>
               <input
-                disabled={formik.values.pat_none || disabled}
+                disabled={formik.values.pat_none || isLoading}
                 id="pat_pleuraverdickung"
                 name="pat_pleuraverdickung"
                 type="checkbox"
@@ -135,7 +137,7 @@ const GradingForm: React.FC<
             </FormRow>
             <FormRow>
               <input
-                disabled={formik.values.pat_none || disabled}
+                disabled={formik.values.pat_none || isLoading}
                 id="pat_blines1"
                 name="pat_blines1"
                 type="checkbox"
@@ -146,7 +148,7 @@ const GradingForm: React.FC<
             </FormRow>
             <FormRow>
               <input
-                disabled={formik.values.pat_none || disabled}
+                disabled={formik.values.pat_none || isLoading}
                 id="pat_blines2"
                 name="pat_blines2"
                 type="checkbox"
@@ -157,7 +159,7 @@ const GradingForm: React.FC<
             </FormRow>
             <FormRow>
               <input
-                disabled={formik.values.pat_none || disabled}
+                disabled={formik.values.pat_none || isLoading}
                 id="pat_subpkons"
                 name="pat_subpkons"
                 type="checkbox"
@@ -168,7 +170,7 @@ const GradingForm: React.FC<
             </FormRow>
             <FormRow>
               <input
-                disabled={formik.values.pat_none || disabled}
+                disabled={formik.values.pat_none || isLoading}
                 id="pat_aerobronch"
                 name="pat_aerobronch"
                 type="checkbox"
@@ -188,7 +190,7 @@ const GradingForm: React.FC<
             }
             <FormRow>
               <input
-                disabled={disabled}
+                disabled={isLoading}
                 id="lusscore-0"
                 name="lusscore"
                 type="radio"
@@ -203,7 +205,7 @@ const GradingForm: React.FC<
             </FormRow>
             <FormRow>
               <input
-                disabled={disabled}
+                disabled={isLoading}
                 id="lusscore-1"
                 name="lusscore"
                 type="radio"
@@ -221,7 +223,7 @@ const GradingForm: React.FC<
             </FormRow>
             <FormRow>
               <input
-                disabled={disabled}
+                disabled={isLoading}
                 id="lusscore-2"
                 name="lusscore"
                 type="radio"
@@ -238,7 +240,7 @@ const GradingForm: React.FC<
             </FormRow>
             <FormRow>
               <input
-                disabled={disabled}
+                disabled={isLoading}
                 id="lusscore-3"
                 name="lusscore"
                 type="radio"
@@ -261,10 +263,13 @@ const GradingForm: React.FC<
       <SubmitRow>
         <Button
           type="submit"
-          disabled={props.disabled}
+          disabled={props.isLoading}
           large={true}
-          onClick={props.disabled ? undefined : () => formik.submitForm()}
+          onClick={props.isLoading ? undefined : () => formik.submitForm()}
         >Submit</Button>
+        {isLoading &&
+          <Spinner/>
+        }
       </SubmitRow>
     </Outer>
   );
