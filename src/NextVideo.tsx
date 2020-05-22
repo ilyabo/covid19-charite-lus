@@ -60,7 +60,7 @@ const AllDoneOuter = styled.div`
 
 const VideoOuter = styled.div`
   flex-grow: 1;
-  max-width: 800px;
+  max-width: 910px;
   position: relative;
 `;
 

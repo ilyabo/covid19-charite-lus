@@ -21,6 +21,7 @@ exports.handler = async (event, context, callback) => {
           'video',
           'time',
           'lusscore',
+          'pat_none',
           'pat_pleuraverdickung',
           'pat_blines1',
           'pat_blines2',

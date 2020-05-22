@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-
-const primaryColor = '#479675';
-const primaryColorLighter = '#54b48d';
+import { primaryColor, primaryColorLighter } from './colors';
 
 interface ButtonStyleProps {
   disabled?: boolean;

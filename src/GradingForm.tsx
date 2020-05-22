@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
 import Button from './Button';
+import { primaryColorLighter } from './colors';
 
 const Outer = styled.div`
   display: flex;
@@ -35,6 +36,12 @@ const FormRow = styled.div`
   }
 `;
 
+const HRule = styled.hr`
+  width: 100%;
+  margin: 10px 0 0 0;
+  border-color: #999;
+`;
+
 const Comment = styled.div`
   font-size: small;
   color: #aaa;
@@ -56,6 +63,7 @@ const GradingForm: React.FC<
   const { disabled } = props;
   const formik = useFormik({
     initialValues: {
+      pat_none: false,
       pat_pleuraverdickung: false,
       pat_blines1: false,
       pat_blines2: false,
@@ -79,12 +87,18 @@ const GradingForm: React.FC<
       //     errors.lusscore = 'Bei LUS-Score >0 sollte es auch Pathologien geben';
       //   }
       }
+      if (values.pat_none) {
+        Object.keys(values)
+          .filter(k => k.startsWith('pat_') && k !== 'pat_none')
+          .forEach(k => formik.setFieldValue(k, false, false));
+      }
       return errors;
     },
     onSubmit: values => {
       props.onSubmit(values);
     },
   });
+  console.log(formik.values)
   const firstFieldRef = useRef<HTMLInputElement>(null );
   useEffect(() => firstFieldRef.current?.focus(), [firstFieldRef]);
   return (
@@ -97,55 +111,67 @@ const GradingForm: React.FC<
               <input
                 ref={firstFieldRef}
                 disabled={disabled}
+                id="pat_none"
+                name="pat_none"
+                type="checkbox"
+                onChange={formik.handleChange}
+                checked={formik.values.pat_none}
+              />
+              <label htmlFor="pat_none">Keine Pathologien</label>
+            </FormRow>
+            <HRule />
+            <FormRow>
+              <input
+                disabled={formik.values.pat_none || disabled}
                 id="pat_pleuraverdickung"
                 name="pat_pleuraverdickung"
                 type="checkbox"
                 onChange={formik.handleChange}
-                value={`${formik.values.pat_pleuraverdickung}`}
+                checked={formik.values.pat_pleuraverdickung}
               />
               <label htmlFor="pat_pleuraverdickung">Pleuraverdickung/ Pleurafragmentierung</label>
             </FormRow>
             <FormRow>
               <input
-                disabled={disabled}
+                disabled={formik.values.pat_none || disabled}
                 id="pat_blines1"
                 name="pat_blines1"
                 type="checkbox"
                 onChange={formik.handleChange}
-                value={`${formik.values.pat_blines1}`}
+                checked={formik.values.pat_blines1}
               />
               <label htmlFor="pat_blines1">B-Lines vereinzelnd &lt; 4 Lines</label>
             </FormRow>
             <FormRow>
               <input
-                disabled={disabled}
+                disabled={formik.values.pat_none || disabled}
                 id="pat_blines2"
                 name="pat_blines2"
                 type="checkbox"
                 onChange={formik.handleChange}
-                value={`${formik.values.pat_blines2}`}
+                checked={formik.values.pat_blines2}
               />
               <label htmlFor="pat_blines2">B-Lines konfluierend</label>
             </FormRow>
             <FormRow>
               <input
-                disabled={disabled}
+                disabled={formik.values.pat_none || disabled}
                 id="pat_subpkons"
                 name="pat_subpkons"
                 type="checkbox"
                 onChange={formik.handleChange}
-                value={`${formik.values.pat_subpkons}`}
+                checked={formik.values.pat_subpkons}
               />
               <label htmlFor="pat_subpkons">Subpleurale Konsolidierung</label>
             </FormRow>
             <FormRow>
               <input
-                disabled={disabled}
+                disabled={formik.values.pat_none || disabled}
                 id="pat_aerobronch"
                 name="pat_aerobronch"
                 type="checkbox"
                 onChange={formik.handleChange}
-                value={`${formik.values.pat_aerobronch}`}
+                checked={formik.values.pat_aerobronch}
               />
               <label htmlFor="pat_aerobronch">Aerobronchogramm</label>
             </FormRow>
