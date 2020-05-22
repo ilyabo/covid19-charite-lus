@@ -69,15 +69,15 @@ const GradingForm: React.FC<
       const errors: any = {};
       if (lusscore == null) {
         errors.lusscore = 'Sie müssen einen Score auswählen';
-      } else if (lusscore! > 0) {
-        const hasPathology = Object.keys(values)
-          .filter(k => k.startsWith('pat_'))
-        // @ts-ignore
-          .map((k: string) => values[k])
-          .some(v => !!v);
-        if (!hasPathology) {
-          errors.lusscore = 'Bei LUS-Score >0 sollte es auch Pathologien geben';
-        }
+      // } else if (lusscore! > 0) {
+      //   const hasPathology = Object.keys(values)
+      //     .filter(k => k.startsWith('pat_'))
+      //   // @ts-ignore
+      //     .map((k: string) => values[k])
+      //     .some(v => !!v);
+      //   if (!hasPathology) {
+      //     errors.lusscore = 'Bei LUS-Score >0 sollte es auch Pathologien geben';
+      //   }
       }
       return errors;
     },
