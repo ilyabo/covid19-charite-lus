@@ -59,7 +59,7 @@ const Home = () => {
     </section>
 
     <StartSection>
-      <ButtonLink large to="/next-video">Beginnen</ButtonLink>
+      <ButtonLink large to="/next-video">Start</ButtonLink>
     </StartSection>
   </Outer>
 };
