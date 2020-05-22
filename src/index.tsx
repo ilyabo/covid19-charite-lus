@@ -3,8 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import * as Sentry from '@sentry/browser';
 
-export const APP_URL = 'https://covid19-lus.netlify.app/';
+if (process.env.NODE_ENV !== 'development') {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN
+  });
+}
+
+export const APP_URL = process.env.REACT_APP_IDENTITY_URL || document.location.origin;
 export const API_ROOT = '/.netlify/functions';
 
 ReactDOM.render(

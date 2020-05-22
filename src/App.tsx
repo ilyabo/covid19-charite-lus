@@ -45,7 +45,11 @@ const LogoutBox = () => {
   const { isLoggedIn } = useIdentityContext();
   return isLoggedIn
     ? <LogoutBoxLayout>
-         <a href="mailto:frederic.muench@charite.de?subject=LUS study" target="_blank">Fragen?</a>
+         <a
+           href="mailto:frederic.muench@charite.de?subject=LUS study"
+           rel="noopener noreferrer"
+           target="_blank"
+         >Fragen?</a>
         <Login />
       </LogoutBoxLayout>
     : null;

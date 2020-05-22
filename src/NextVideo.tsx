@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { useAsyncFn, useAsyncRetry } from 'react-use';
 import { useIdentityContext } from 'react-netlify-identity';
 import GradingForm, { GradingFormValues } from './GradingForm';
-import Button from './Button';
 import Login from './Login';
 import fetchApi from './fetchApi';
 import Spinner from './Spinner';
@@ -130,7 +129,7 @@ const NextVideo: React.FC<{}> = (props) => {
     if (!submitState.loading && submitState?.value?.status === 'ok') {
       nextVideoFetch.retry();
     }
-  }, [submitState])
+  }, [submitState, nextVideoFetch])
 
   const { loading, error, value } = nextVideoFetch;
 

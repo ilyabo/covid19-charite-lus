@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
 import Button from './Button';
-import { errorColor, primaryColorLighter } from './colors';
+import { errorColor } from './colors';
 import Spinner from './Spinner';
 
 const Outer = styled.div`
