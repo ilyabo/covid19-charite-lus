@@ -3,12 +3,10 @@ import { useFormik } from 'formik';
 import styled from '@emotion/styled';
 import Button from './Button';
 import { errorColor } from './colors';
-import { useAsync, useAsyncFn, useAsyncRetry } from 'react-use';
-import { GradingFormValues } from './GradingForm';
+import { useAsyncFn } from 'react-use';
 import fetchApi from './fetchApi';
 import { useIdentityContext } from 'react-netlify-identity';
 import Spinner from './Spinner';
-import { ErrorBox } from './errors';
 
 const Outer = styled.div`
   position: absolute;
@@ -473,53 +471,4 @@ const Questionnaire: React.FC<{}> = (props) => {
   );
 };
 
-
-const QuestionnaireWithCheckOuter = styled.div`
-  position: absolute;
-  width: 100%;
-  display: flex;
-  justify-items: center;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  flex-direction: column;
-  & > *+* { margin-top: 40px; }
-`;
-
-const QuestionnaireWithCheck: React.FC<{}> = (props) => {
-  const {user} = useIdentityContext();
-  const checkFetch = useAsyncRetry(async () => {
-    return await fetchApi('questionnaire-check', user, {
-      method: 'POST'
-    });
-  }, []);
-  useEffect(() => {
-    if (!checkFetch.loading && checkFetch.value) {
-      const { hasSubmitted } = checkFetch.value;
-      if (hasSubmitted) {
-        document.location.href = '/next-video';
-      }
-    }
-  }, [checkFetch.loading, checkFetch.value]);
-
-  return (
-    <>
-      {!checkFetch.loading && checkFetch.value && !checkFetch.value.hasSubmitted
-        ? <Questionnaire/>
-        :
-        <QuestionnaireWithCheckOuter>
-          {checkFetch.loading && <Spinner/>}
-          {!checkFetch.loading && checkFetch.error &&
-            <ErrorBox
-              text="Oops, etwas ist schief gelaufen.…"
-              retry={() => checkFetch.retry()}
-            />
-          }
-        </QuestionnaireWithCheckOuter>
-      }
-    </>
-  );
-};
-
-
-export default QuestionnaireWithCheck;
+export default Questionnaire;

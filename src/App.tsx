@@ -8,6 +8,7 @@ import { APP_URL } from './index';
 import styled from '@emotion/styled';
 import Login from './Login';
 import Questionnaire from './Questionnaire';
+import QuestionnaireCheck from './QuestionnaireCheck';
 
 interface Props {
   component: React.FunctionComponent;
@@ -60,8 +61,8 @@ function App() {
             <PublicRoute path="/welcome" component={Welcome} />
             {/*<PublicRoute path="/createaccount" component={CreateAccount} />*/}
             {/*<PublicRoute path="/login" component={LogIn} />*/}
-            <PrivateRoute path="/home" component={Home} />
-            <PrivateRoute path="/questionnaire" component={Questionnaire} />
+            <PrivateRoute path="/home" component={() => <QuestionnaireCheck><Home/></QuestionnaireCheck>} />
+            <PrivateRoute path="/questionnaire" component={() => <QuestionnaireCheck><Questionnaire/></QuestionnaireCheck>} />
             <PrivateRoute path="/next-video" component={NextVideo} />
           </Switch>
         </BrowserRouter>
