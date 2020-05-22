@@ -203,6 +203,18 @@ const Questionnaire: React.FC<{}> = (props) => {
                   />
                   <label htmlFor="facharzt">Facharzt</label>
                 </RadioItem>
+                <RadioItem>
+                  <input
+                    id="Prä-Kliniker"
+                    name="ErfahrungArzt"
+                    type="radio"
+                    disabled={disabled}
+                    onChange={formik.handleChange}
+                    value="Prä-Kliniker"
+                    checked={formik.values.ErfahrungArzt === 'Prä-Kliniker'}
+                  />
+                  <label htmlFor="Prä-Kliniker">Prä-Kliniker</label>
+                </RadioItem>
               </FormItem>
             </FormRow>
           </FieldsetItems>
