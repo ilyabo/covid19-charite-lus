@@ -1,6 +1,15 @@
 const { QUESTIONNAIRE_SHEET, getNowFormatted, loadSpreadsheet, findSheetByName } = require('./common');
 
-const fieldNames = require('../src/questionnaireFields.json');
+const fieldNames = [
+  'ErfahrungJahre',
+  'ErfahrungArzt',
+  'Fachrichtung',
+  'ErfahrungSonoJahre',
+  'Sonographien',
+  'LUS_insgesamt',
+  'LUS_COVID19',
+  'LUS_COVID19_Anzahl'
+];
 
 exports.handler = async (event, context, callback) => {
     console.log(JSON.parse(event.body));
