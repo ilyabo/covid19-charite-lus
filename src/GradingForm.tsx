@@ -104,7 +104,7 @@ const GradingForm: React.FC<
     <Outer>
       <StyledForm onSubmit={formik.handleSubmit}>
         <Fieldset>
-          <legend>Pathologien</legend>
+          <legend>Pathologies</legend>
           <FieldsetItems>
             <FormRow>
               <input
@@ -116,7 +116,7 @@ const GradingForm: React.FC<
                 onChange={formik.handleChange}
                 checked={formik.values.pat_none}
               />
-              <label htmlFor="pat_none">Keine Pathologien</label>
+              <label htmlFor="pat_none">No pathologies</label>
             </FormRow>
             <HRule />
             <FormRow>
@@ -128,7 +128,7 @@ const GradingForm: React.FC<
                 onChange={formik.handleChange}
                 checked={formik.values.pat_pleuraverdickung}
               />
-              <label htmlFor="pat_pleuraverdickung">Pleuraverdickung/ Pleurafragmentierung</label>
+              <label htmlFor="pat_pleuraverdickung">Pleural thickening / pleural fragmentation</label>
             </FormRow>
             <FormRow>
               <input
@@ -139,7 +139,7 @@ const GradingForm: React.FC<
                 onChange={formik.handleChange}
                 checked={formik.values.pat_blines1}
               />
-              <label htmlFor="pat_blines1">B-Lines vereinzelnd &lt; 4 Lines</label>
+              <label htmlFor="pat_blines1">B-lines isolated &lt; 4 lines</label>
             </FormRow>
             <FormRow>
               <input
@@ -150,7 +150,7 @@ const GradingForm: React.FC<
                 onChange={formik.handleChange}
                 checked={formik.values.pat_blines2}
               />
-              <label htmlFor="pat_blines2">B-Lines konfluierend</label>
+              <label htmlFor="pat_blines2">B-lines coalescent / &gt; 4 lines</label>
             </FormRow>
             <FormRow>
               <input
@@ -161,7 +161,7 @@ const GradingForm: React.FC<
                 onChange={formik.handleChange}
                 checked={formik.values.pat_subpkons}
               />
-              <label htmlFor="pat_subpkons">Subpleurale Konsolidierung</label>
+              <label htmlFor="pat_subpkons">Subpleural consolidations</label>
             </FormRow>
             <FormRow>
               <input
@@ -172,7 +172,7 @@ const GradingForm: React.FC<
                 onChange={formik.handleChange}
                 checked={formik.values.pat_aerobronch}
               />
-              <label htmlFor="pat_aerobronch">Aerobronchogramm</label>
+              <label htmlFor="pat_aerobronch">Air bronchogram</label>
             </FormRow>
           </FieldsetItems>
         </Fieldset>
