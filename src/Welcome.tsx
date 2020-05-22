@@ -35,14 +35,14 @@ const Welcome = () => {
   return (
     <Outer>
       <Title>
-        Prospective analysis of inter-observer and intra-observer variability
-        in standardized lung ultrasound of patients with confirmed diagnosis of SARS-CoV 2
+        Prospective analysis of interobserver and intraobserver variability
+        in standardized lung ultrasound of intensive care patients with confirmed diagnosis of SARS-CoV 2
       </Title>
       <Login large={true} />
       <Subtitle>
         Studienverantwortliche für Fragen:
         <div>
-        Frederic Münch 614644,
+          <a href="mailto:frederic.muench@charite.de">Frederic Münch</a> 614644,
         Markus Lerchbaumer 657084
         </div>
       </Subtitle>
