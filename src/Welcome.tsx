@@ -42,8 +42,8 @@ const Welcome = () => {
       <Subtitle>
         Studienverantwortliche für Fragen:
         <div>
-          <a href="mailto:frederic.muench@charite.de">Frederic Münch</a> 614644,
-        Markus Lerchbaumer 657084
+          <div><a href="mailto:frederic.muench@charite.de">Frederic Münch</a> 614644</div>
+          <div><a href="markus.lerchbaumer@charite.de">Markus Lerchbaumer</a> 657084</div>
         </div>
       </Subtitle>
       <Logo src={logoImg}/>
