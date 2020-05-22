@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Login from './Login';
-import logoImg from './logo.svg';
+import logoImg from './images/logo.svg';
 
 const Outer = styled.div`
   position: absolute;
