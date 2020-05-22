@@ -46,7 +46,7 @@ const Home = () => {
         <li>
           The loops are labeled as R1-R6 (right thorax) and L1-L6 (left thorax) simulating that you are having the ultrasound probe in your hand
           (see picture below) and know where you are looking (even though it doesn't play an essential role for this analysis).
-          <Img width={300} src={throaxLabelingImg}/>
+          <Img width={300} height={192} src={throaxLabelingImg}/>
         </li>
         <li>Pathologies: either select “Keine” or check all the pathologies you see (you can check more than 1 pathology!).</li>
         <li>LUS Score: you must select one.</li>
