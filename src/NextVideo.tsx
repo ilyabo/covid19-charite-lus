@@ -88,6 +88,20 @@ const SmallError = styled.div`
 `;
 
 
+const ThoraxLabel = styled(({ fileName, ...props }) => {
+  const m = /^(\d+)_(.+)\.mp4$/.exec(fileName);
+  if (!m) return null;
+  return (
+    <div {...props}>{m[2]}</div>
+  );
+})`
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  font-size: 25px;
+  font-weight: bold;
+`;
+
 const NextVideo: React.FC<{}> = (props) => {
 
   const { user } = useIdentityContext();
@@ -153,6 +167,9 @@ const NextVideo: React.FC<{}> = (props) => {
                   <DemoVideo preload="auto" autoPlay={true} controls loop>
                     <source src={value.url} />
                   </DemoVideo>
+                  <ThoraxLabel
+                    fileName={value.name}
+                  />
                 </VideoOuter>
                 <div>
                   <GradingForm
