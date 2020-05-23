@@ -9,6 +9,7 @@ import styled from '@emotion/styled';
 import Login from './Login';
 import Questionnaire from './Questionnaire';
 import QuestionnaireCheck from './QuestionnaireCheck';
+import ErrorBoundary from './ErrorBoundary';
 
 interface Props {
   component: React.FunctionComponent;
@@ -59,18 +60,20 @@ function App() {
   return (
     <Outer>
       <IdentityContextProvider url={APP_URL}>
-        <BrowserRouter>
-          <Switch>
-            <PublicRoute exact path="/" component={Welcome} />
-            <PublicRoute path="/welcome" component={Welcome} />
-            {/*<PublicRoute path="/createaccount" component={CreateAccount} />*/}
-            {/*<PublicRoute path="/login" component={LogIn} />*/}
-            <PrivateRoute path="/home" component={Home} />
-            <PrivateRoute path="/questionnaire" component={() => <QuestionnaireCheck><Questionnaire/></QuestionnaireCheck>} />
-            <PrivateRoute path="/next-video" component={NextVideo} />
-          </Switch>
-        </BrowserRouter>
-        <LogoutBox/>
+        <ErrorBoundary>
+          <BrowserRouter>
+            <Switch>
+              <PublicRoute exact path="/" component={Welcome} />
+              <PublicRoute path="/welcome" component={Welcome} />
+              {/*<PublicRoute path="/createaccount" component={CreateAccount} />*/}
+              {/*<PublicRoute path="/login" component={LogIn} />*/}
+              <PrivateRoute path="/home" component={Home} />
+              <PrivateRoute path="/questionnaire" component={() => <QuestionnaireCheck><Questionnaire/></QuestionnaireCheck>} />
+              <PrivateRoute path="/next-video" component={NextVideo} />
+            </Switch>
+          </BrowserRouter>
+          <LogoutBox/>
+        </ErrorBoundary>
       </IdentityContextProvider>
     </Outer>
   );

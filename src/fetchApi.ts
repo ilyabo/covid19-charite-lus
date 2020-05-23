@@ -25,16 +25,16 @@ export default async function fetchApi(endpoint: string, user: any, opts?: any) 
       // netlifyIdentity.open();
       // @ts-ignore
       // netlifyIdentity.refresh();
-
       // Enforce log out if the response is 401 "Unauthorized")
       netlifyIdentity.logout();
+      // await user.jwt(true);  // force refresh
     }
     const errorText = await response.text();
     console.error('API fetch error: ' + errorText);
     const error = new Error(errorText);
     if (process.env.REACT_APP_SENTRY_DSN) {
       withScope(scope => {
-        scope.setUser({ id: netlifyIdentity.currentUser()?.email });
+        scope.setUser({ id: user?.email });
         captureException(error);
       });
     }
