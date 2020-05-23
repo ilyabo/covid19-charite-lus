@@ -1,5 +1,6 @@
 import { API_ROOT } from './index';
 import netlifyIdentity from 'netlify-identity-widget';
+import { captureException, withScope } from '@sentry/core';
 
 export default async function fetchApi(endpoint: string, user: any, opts?: any) {
   if (!user || !user.token?.access_token) {
@@ -30,7 +31,14 @@ export default async function fetchApi(endpoint: string, user: any, opts?: any) 
     }
     const errorText = await response.text();
     console.error('API fetch error: ' + errorText);
-    throw new Error(errorText);
+    const error = new Error(errorText);
+    if (process.env.REACT_APP_SENTRY_DSN) {
+      withScope(scope => {
+        scope.setUser({ id: netlifyIdentity.currentUser()?.email });
+        captureException(error);
+      });
+    }
+    throw error;
   }
   return await response.json();
 }
