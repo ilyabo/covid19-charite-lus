@@ -19,7 +19,7 @@ const Outer = styled.div`
   padding-top: 60px;
   padding-bottom: 100px;
   flex-direction: column;
-  & > * { max-width: 600px; }
+  & > * { max-width: 700px; }
   & > *+* { margin-top: 40px; }
 `;
 
@@ -114,26 +114,27 @@ const Questionnaire: React.FC<{}> = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      ErfahrungJahre: undefined,
-      ErfahrungArzt: undefined,
-      Fachrichtung: undefined,
-      ErfahrungSonoJahre: undefined,
-      Sonographien: undefined,
-      LUS_insgesamt: undefined,
-      LUS_COVID19: undefined,
-      LUS_COVID19_Anzahl: undefined,
+      ErfahrungJahre: '',
+      ErfahrungArzt: null,
+      Fachrichtung: null,
+      ErfahrungSonoJahre: '',
+      Sonographien: null,
+      LUS_insgesamt: null,
+      LUS_COVID19: null,
+      LUS_COVID19_Anzahl: '',
     },
     validate: (values: any) => {
       const errors: any = {};
       for (const field of fieldNames) {
-        if (values[field] == null) {
+        const v = values[field];
+        if (v == null || !(`${v}`.trim().length > 0)) {
           errors[field] = `“${field}” ist ein Pflichtfeld`;
         }
       }
 
       const validateNumber = (field: string, min: number, max: number) => {
         const v = values[field];
-        if (v != null) {
+        if (v?.trim().length > 0) {
           const numValue = +v;
           if (!(min <= numValue && numValue <= max)) {
             errors[field] = `“${field}” sollte zwischen ${min} und ${max} sein`;
@@ -143,6 +144,7 @@ const Questionnaire: React.FC<{}> = (props) => {
       validateNumber('ErfahrungJahre', 0, 99);
       validateNumber('ErfahrungSonoJahre', 0, 99);
       validateNumber('LUS_COVID19_Anzahl', 0, 1000);
+
 
       return errors;
     },
@@ -159,12 +161,6 @@ const Questionnaire: React.FC<{}> = (props) => {
         <Fieldset>
           <legend>Klinische Erfahrung</legend>
           <FieldsetItems>
-            {formik.touched.ErfahrungJahre && formik.errors.ErfahrungJahre &&
-              <FieldError>{formik.errors.ErfahrungJahre}</FieldError>
-            }
-            {formik.touched.ErfahrungArzt && formik.errors.ErfahrungArzt &&
-              <FieldError>{formik.errors.ErfahrungArzt}</FieldError>
-            }
             <FormRow>
               <FormItem error={!!(formik.touched.ErfahrungJahre && formik.errors.ErfahrungJahre)}>
                 <input
@@ -173,11 +169,13 @@ const Questionnaire: React.FC<{}> = (props) => {
                   type="text"
                   onChange={formik.handleChange}
                   disabled={disabled}
-                  checked={formik.values.ErfahrungJahre}
+                  value={formik.values.ErfahrungJahre}
                   style={{ width: 30, fontSize: '15px' }}
                 />
                 <label>Jahre</label>
               </FormItem>
+            </FormRow>
+            <FormRow>
               <FormItem error={!!(formik.touched.ErfahrungArzt && formik.errors.ErfahrungArzt)}>
                 <RadioItem>
                   <input
@@ -203,8 +201,26 @@ const Questionnaire: React.FC<{}> = (props) => {
                   />
                   <label htmlFor="facharzt">Facharzt</label>
                 </RadioItem>
+                <RadioItem>
+                  <input
+                    id="Prä-Kliniker"
+                    name="ErfahrungArzt"
+                    type="radio"
+                    disabled={disabled}
+                    onChange={formik.handleChange}
+                    value="Prä-Kliniker"
+                    checked={formik.values.ErfahrungArzt === 'Prä-Kliniker'}
+                  />
+                  <label htmlFor="Prä-Kliniker">Prä-Kliniker</label>
+                </RadioItem>
               </FormItem>
             </FormRow>
+            {formik.touched.ErfahrungJahre && formik.errors.ErfahrungJahre &&
+              <FieldError>{formik.errors.ErfahrungJahre}</FieldError>
+            }
+            {formik.touched.ErfahrungArzt && formik.errors.ErfahrungArzt &&
+              <FieldError>{formik.errors.ErfahrungArzt}</FieldError>
+            }
           </FieldsetItems>
         </Fieldset>
 
@@ -212,9 +228,6 @@ const Questionnaire: React.FC<{}> = (props) => {
         <Fieldset>
           <legend>Fachrichtung</legend>
           <FieldsetItems>
-            {formik.touched.Fachrichtung && formik.errors.Fachrichtung &&
-              <FieldError>{formik.errors.Fachrichtung}</FieldError>
-            }
             <FormRow>
               <FormItem error={!!(formik.touched.Fachrichtung && formik.errors.Fachrichtung)}>
                 <RadioItem>
@@ -255,6 +268,9 @@ const Questionnaire: React.FC<{}> = (props) => {
                 </RadioItem>
               </FormItem>
             </FormRow>
+            {formik.touched.Fachrichtung && formik.errors.Fachrichtung &&
+              <FieldError>{formik.errors.Fachrichtung}</FieldError>
+            }
           </FieldsetItems>
         </Fieldset>
 
@@ -262,9 +278,6 @@ const Questionnaire: React.FC<{}> = (props) => {
         <Fieldset>
           <legend>Erfahrung Sonographie</legend>
           <FieldsetItems>
-            {formik.touched.ErfahrungSonoJahre && formik.errors.ErfahrungSonoJahre &&
-              <FieldError>{formik.errors.ErfahrungSonoJahre}</FieldError>
-            }
             <FormRow>
               <FormItem error={!!(formik.touched.ErfahrungSonoJahre && formik.errors.ErfahrungSonoJahre)}>
                 <input
@@ -273,12 +286,15 @@ const Questionnaire: React.FC<{}> = (props) => {
                   type="text"
                   disabled={disabled}
                   onChange={formik.handleChange}
-                  checked={formik.values.ErfahrungSonoJahre}
+                  value={formik.values.ErfahrungSonoJahre}
                   style={{ width: 30, fontSize: '15px' }}
                 />
                 <label>Jahre</label>
               </FormItem>
             </FormRow>
+            {formik.touched.ErfahrungSonoJahre && formik.errors.ErfahrungSonoJahre &&
+              <FieldError>{formik.errors.ErfahrungSonoJahre}</FieldError>
+            }
           </FieldsetItems>
         </Fieldset>
 
@@ -286,9 +302,6 @@ const Questionnaire: React.FC<{}> = (props) => {
         <Fieldset>
           <legend>Sonographien insgesamt (inkl. TTE)</legend>
           <FieldsetItems>
-            {formik.touched.Sonographien && formik.errors.Sonographien &&
-              <FieldError>{formik.errors.Sonographien}</FieldError>
-            }
             <FormRow>
               <FormItem error={!!(formik.touched.Sonographien && formik.errors.Sonographien)}>
                 <RadioItem>
@@ -327,8 +340,23 @@ const Questionnaire: React.FC<{}> = (props) => {
                   />
                   <label htmlFor="Sonographien_10000">&gt; 10000</label>
                 </RadioItem>
+                <RadioItem>
+                  <input
+                    id="Sonographien_unzutreffend"
+                    name="Sonographien"
+                    type="radio"
+                    disabled={disabled}
+                    onChange={formik.handleChange}
+                    value="unzutreffend"
+                    checked={formik.values.Sonographien === 'unzutreffend'}
+                  />
+                  <label htmlFor="Sonographien_unzutreffend">unzutreffend</label>
+                </RadioItem>
               </FormItem>
             </FormRow>
+            {formik.touched.Sonographien && formik.errors.Sonographien &&
+              <FieldError>{formik.errors.Sonographien}</FieldError>
+            }
           </FieldsetItems>
         </Fieldset>
 
@@ -336,9 +364,6 @@ const Questionnaire: React.FC<{}> = (props) => {
         <Fieldset>
           <legend>Lung ultrasound insgesamt</legend>
           <FieldsetItems>
-            {formik.touched.LUS_insgesamt && formik.errors.LUS_insgesamt &&
-              <FieldError>{formik.errors.LUS_insgesamt}</FieldError>
-            }
             <FormRow>
               <FormItem error={!!(formik.touched.LUS_insgesamt && formik.errors.LUS_insgesamt)}>
                 <RadioItem>
@@ -377,8 +402,23 @@ const Questionnaire: React.FC<{}> = (props) => {
                   />
                   <label htmlFor="lus_insgesamt_1000">&gt; 1000</label>
                 </RadioItem>
+                <RadioItem>
+                  <input
+                    id="lus_insgesamt_unzutreffend"
+                    name="LUS_insgesamt"
+                    type="radio"
+                    disabled={disabled}
+                    onChange={formik.handleChange}
+                    value="unzutreffend"
+                    checked={formik.values.LUS_insgesamt === 'unzutreffend'}
+                  />
+                  <label htmlFor="lus_insgesamt_unzutreffend">unzutreffend</label>
+                </RadioItem>
               </FormItem>
             </FormRow>
+            {formik.touched.LUS_insgesamt && formik.errors.LUS_insgesamt &&
+              <FieldError>{formik.errors.LUS_insgesamt}</FieldError>
+            }
           </FieldsetItems>
         </Fieldset>
 
@@ -386,9 +426,6 @@ const Questionnaire: React.FC<{}> = (props) => {
         <Fieldset>
           <legend>LUS bei Covid19</legend>
           <FieldsetItems>
-            {formik.touched.LUS_COVID19 && formik.errors.LUS_COVID19 &&
-              <FieldError>{formik.errors.LUS_COVID19}</FieldError>
-            }
             <FormRow>
               <FormItem error={!!(formik.touched.LUS_COVID19 && formik.errors.LUS_COVID19)}>
                 <RadioItem>
@@ -427,11 +464,20 @@ const Questionnaire: React.FC<{}> = (props) => {
                   />
                   <label htmlFor="lus_covid19_300">&gt; 300</label>
                 </RadioItem>
+                <RadioItem>
+                  <input
+                    id="lus_covid19_unzutreffend"
+                    name="LUS_COVID19"
+                    type="radio"
+                    disabled={disabled}
+                    onChange={formik.handleChange}
+                    value="unzutreffend"
+                    checked={formik.values.LUS_COVID19 === 'unzutreffend'}
+                  />
+                  <label htmlFor="lus_covid19_unzutreffend">unzutreffend</label>
+                </RadioItem>
               </FormItem>
             </FormRow>
-            {formik.touched.LUS_COVID19_Anzahl && formik.errors.LUS_COVID19_Anzahl &&
-              <FieldError>{formik.errors.LUS_COVID19_Anzahl}</FieldError>
-            }
             <FormRow>
               <FormItem error={!!(formik.touched.LUS_COVID19_Anzahl && formik.errors.LUS_COVID19_Anzahl)}>
                 <label>Geschätzte Anzahl:</label>
@@ -441,11 +487,17 @@ const Questionnaire: React.FC<{}> = (props) => {
                   name="LUS_COVID19_Anzahl"
                   type="text"
                   onChange={formik.handleChange}
-                  checked={formik.values.LUS_COVID19_Anzahl}
+                  value={formik.values.LUS_COVID19_Anzahl}
                   style={{ width: 60, fontSize: '15px' }}
                 />
               </FormItem>
             </FormRow>
+            {formik.touched.LUS_COVID19 && formik.errors.LUS_COVID19 &&
+              <FieldError>{formik.errors.LUS_COVID19}</FieldError>
+            }
+            {formik.touched.LUS_COVID19_Anzahl && formik.errors.LUS_COVID19_Anzahl &&
+              <FieldError>{formik.errors.LUS_COVID19_Anzahl}</FieldError>
+            }
           </FieldsetItems>
         </Fieldset>
         { Object.keys(formik.touched).length > 0 &&

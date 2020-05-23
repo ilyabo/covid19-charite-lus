@@ -11,9 +11,15 @@ const ErrorOuter = styled.div`
   & > *+* { margin-top: 20px; }
 `;
 
-export const ErrorBox: React.FC<{ text: string, retry: () => void }> = ({ text, retry }) =>
+export const ErrorBox: React.FC<
+  {
+    text: string,
+    error?: any,
+    retry: () => void,
+  }> = ({ text, error, retry }) =>
   <ErrorOuter>
     <div>{text}</div>
+    {error && <div>{error.toString()}</div>}
     <div>
       <Button onClick={retry}>
         Nochmals versuchen

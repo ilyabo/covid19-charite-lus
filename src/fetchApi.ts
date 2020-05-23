@@ -1,5 +1,6 @@
 import { API_ROOT } from './index';
 import netlifyIdentity from 'netlify-identity-widget';
+import { captureException, withScope } from '@sentry/core';
 
 export default async function fetchApi(endpoint: string, user: any, opts?: any) {
   if (!user || !user.token?.access_token) {
@@ -23,13 +24,21 @@ export default async function fetchApi(endpoint: string, user: any, opts?: any) 
       // document.location.reload();
       // netlifyIdentity.open();
       // @ts-ignore
-      netlifyIdentity.refresh();
+      // netlifyIdentity.refresh();
+      // Enforce log out if the response is 401 "Unauthorized")
       // netlifyIdentity.logout();
+      await user.jwt(true);  // force token refresh
     }
-    // TODO: enforce log out if the response is 401 "Unauthorized")
     const errorText = await response.text();
     console.error('API fetch error: ' + errorText);
-    throw new Error(errorText);
+    const error = new Error(errorText);
+    if (process.env.REACT_APP_SENTRY_DSN) {
+      withScope(scope => {
+        scope.setUser({ id: user?.email });
+        captureException(error);
+      });
+    }
+    throw error;
   }
   return await response.json();
 }
