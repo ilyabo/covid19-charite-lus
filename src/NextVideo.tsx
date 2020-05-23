@@ -129,7 +129,10 @@ const NextVideo: React.FC<{}> = (props) => {
     if (!submitState.loading && submitState?.value?.status === 'ok') {
       nextVideoFetch.retry();
     }
-  }, [submitState, nextVideoFetch])
+  },
+    // eslint-disable-line react-hooks/exhaustive-deps
+    [submitState]
+  )
 
   const { loading, error, value } = nextVideoFetch;
 
