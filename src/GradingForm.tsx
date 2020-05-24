@@ -74,7 +74,6 @@ const GradingForm: React.FC<
       pat_blines2: false,
       pat_subpkons: false,
       pat_aerobronch: false,
-      pat_alines: false,
       lusscore: undefined,
     },
     validate: values => {
