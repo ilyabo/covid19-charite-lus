@@ -32,6 +32,7 @@ const FormRow = styled.div`
   display: flex;
   flex-direction: row;
   & > *+* { margin-left: 5px; }
+  & > input { flex: 0 0 auto; }   // fixes a rendering issue in Safari
   & input:focus {
     outline: 2px solid rgba(0, 103, 244, 1.0);     
   }
