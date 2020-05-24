@@ -35,8 +35,7 @@ const Welcome = () => {
   return (
     <Outer>
       <Title>
-        Prospective analysis of interobserver and intraobserver variability
-        in standardized lung ultrasound of intensive care patients with confirmed diagnosis of SARS-CoV 2
+        Interobserver and intraobserver variability in point-of-care lung ultrasound of intensive care patients with confirmed Covid-19
       </Title>
       <Login large={true} />
       <Subtitle>
