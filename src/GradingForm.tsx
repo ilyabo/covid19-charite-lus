@@ -57,7 +57,15 @@ const FieldError = styled.div`
   color: ${errorColor};
 `;
 
-export type GradingFormValues = any;
+export interface GradingFormValues {
+  pat_none?: boolean;
+  pat_pleuraverdickung?: boolean;
+  pat_blines1?: boolean;
+  pat_blines2?: boolean;
+  pat_subpkons?: boolean;
+  pat_aerobronch?: boolean;
+  lusscore?: string;
+}
 
 const GradingForm: React.FC<
   {
@@ -76,7 +84,7 @@ const GradingForm: React.FC<
       pat_aerobronch: false,
       lusscore: undefined,
     },
-    validate: values => {
+    validate: (values: GradingFormValues) => {
       const { lusscore } = values;
       const errors: any = {};
       if (lusscore == null) {
@@ -95,6 +103,14 @@ const GradingForm: React.FC<
         Object.keys(values)
           .filter(k => k.startsWith('pat_') && k !== 'pat_none')
           .forEach(k => formik.setFieldValue(k, false, false));
+      } else {
+        const checkedCount =
+          Object.keys(values)
+            .filter(k => k.startsWith('pat_') && (values as any)[k])
+            .length;
+        if (checkedCount === 0) {
+          errors.pat_none = 'Sie müssen mindestens eine Checkbox wählen';
+        }
       }
       return errors;
     },
@@ -110,6 +126,9 @@ const GradingForm: React.FC<
         <Fieldset>
           <legend>Pathologies</legend>
           <FieldsetItems>
+            {formik.touched.pat_none && formik.errors.pat_none &&
+              <FieldError>{formik.errors.pat_none}</FieldError>
+            }
             <FormRow>
               <input
                 ref={firstFieldRef}
