@@ -25,7 +25,6 @@ exports.handler = async (event, context, callback) => {
           'pat_blines2',
           'pat_subpkons',
           'pat_aerobronch',
-          'pat_alines',
         ],
       });
     }
