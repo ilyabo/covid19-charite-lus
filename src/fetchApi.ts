@@ -2,11 +2,8 @@ import { API_ROOT } from './index';
 import netlifyIdentity from 'netlify-identity-widget';
 import { captureException, withScope } from '@sentry/core';
 
-export default async function fetchApi(endpoint: string, user: any, opts?: any) {
-  if (!user || !user.token?.access_token) {
-    throw new Error('Not authenticated');
-  }
-  const response = await fetch(
+async function doFetch(endpoint: string, user: any, opts?: any) {
+  return fetch(
     `${API_ROOT}/${endpoint}`,
     {
       ...opts,
@@ -18,17 +15,20 @@ export default async function fetchApi(endpoint: string, user: any, opts?: any) 
       }),
     }
   );
+}
+
+export default async function fetchApi(endpoint: string, user: any, opts?: any) {
+  if (!user || !user.token?.access_token) {
+    throw new Error('Not authenticated');
+  }
+  let response = await doFetch(endpoint, user, opts);
+  if (response.status === 401) {
+    // netlifyIdentity.logout();
+    await user.jwt(true);  // force token refresh
+    response = await doFetch(endpoint, user, opts); // retry with the new token
+  }
+
   if (!response.ok) {
-    if (response.status === 401) {
-      // Workaround for refreshing the auth token:
-      // document.location.reload();
-      // netlifyIdentity.open();
-      // @ts-ignore
-      // netlifyIdentity.refresh();
-      // Enforce log out if the response is 401 "Unauthorized")
-      // netlifyIdentity.logout();
-      await user.jwt(true);  // force token refresh
-    }
     const errorText = await response.text();
     console.error('API fetch error: ' + errorText);
     const error = new Error(errorText);
