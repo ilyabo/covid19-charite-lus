@@ -25,7 +25,7 @@ export default async function fetchApi(endpoint: string, user: any, opts?: any) 
   if (response.status === 401) {
     await user.jwt(true);  // force token refresh
     response = await doFetch(endpoint, user, opts); // retry with the new token
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 400) {
        netlifyIdentity.logout();  // log out if it didn't help
     }
   }
