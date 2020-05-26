@@ -160,7 +160,10 @@ const GradingForm: React.FC<
                 id="pat_blines1"
                 name="pat_blines1"
                 type="checkbox"
-                onChange={formik.handleChange}
+                onChange={(evt) => {
+                  formik.setFieldValue('pat_blines2', false, false);
+                  formik.handleChange(evt);
+                }}
                 checked={formik.values.pat_blines1}
               />
               <label htmlFor="pat_blines1">B-lines isolated &lt; 4 lines</label>
@@ -171,7 +174,10 @@ const GradingForm: React.FC<
                 id="pat_blines2"
                 name="pat_blines2"
                 type="checkbox"
-                onChange={formik.handleChange}
+                onChange={(evt) => {
+                  formik.setFieldValue('pat_blines1', false, false);
+                  formik.handleChange(evt);
+                }}
                 checked={formik.values.pat_blines2}
               />
               <label htmlFor="pat_blines2">B-lines coalescent / &gt; 4 lines</label>
