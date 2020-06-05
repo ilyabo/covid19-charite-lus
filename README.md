@@ -5,6 +5,7 @@ A simple video annotation tool used for the study “Interobserver and intraobse
 
 ![image](https://user-images.githubusercontent.com/351828/82701044-ae6e7980-9c6f-11ea-9fdd-98e1018543ba.png)
 
+The results are automatically saved to a Google spreadsheet.
 
 ### Development
 
