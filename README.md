@@ -1,8 +1,6 @@
 # SARS-CoV-2 lung ultra sound study
 
-Charité – Universitätsmedizin Berlin
-
-Prospective analysis of inter-observer and intra-observer variability in standardized lung ultrasound of patients with confirmed diagnosis of SARS-CoV 2.
+A simple video annotation tool used for the study “Interobserver and intraobserver variability in point-of-care lung ultrasound of intensive care patients with confirmed Covid-19” at Charité – Universitätsmedizin Berlin.
 
 
 ![image](https://user-images.githubusercontent.com/351828/82701044-ae6e7980-9c6f-11ea-9fdd-98e1018543ba.png)
