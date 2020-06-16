@@ -41,8 +41,8 @@ const Home = () => {
       </p>
       <ul>
         <li>There are a total of 100 different loops of LUS of COVID patients on ICU.</li>
-        <li>Each loop will appear 4 times.</li>
-        <li>The order of appearance will be random for each observer (which also means that by chance you might get the same loop twice one after another).</li>
+        {/*<li>Each loop will appear 4 times.</li>*/}
+        {/*<li>The order of appearance will be random for each observer (which also means that by chance you might get the same loop twice one after another).</li>*/}
         <li>
           The loops are labeled as R1-R6 (right thorax) and L1-L6 (left thorax) simulating that you are having the ultrasound probe in your hand
           (see picture below) and know where you are looking (even though it doesn't play an essential role for this analysis).
