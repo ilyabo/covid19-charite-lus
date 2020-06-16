@@ -51,7 +51,7 @@ const Home = () => {
         <li>Pathologies: either select “Keine” or check all the pathologies you see (you can check more than 1 pathology!).</li>
         <li>LUS Score: you must select one.</li>
         <li>After grading the loop and clicking submit you cannot go back.</li>
-        <li>You can stop and leave the page at any time. When logging in again you will start where you left until you have graded the 400 loops.</li>
+        <li>You can stop and leave the page at any time. When logging in again you will start where you left until you have graded all the loops.</li>
       </ul>
 
     </section>
