@@ -140,22 +140,21 @@ const NextVideo: React.FC<{}> = (props) => {
     <Outer>
       {loading
         ? <LoadingOuter>
-            <div>Das nächste Video wird geladen…</div>
+            <div>Loading the next video…</div>
             <Spinner/>
           </LoadingOuter>
         : error
           ? <ErrorBox
-            text="Das Video konnte leider nicht geladen werden…"
+            text="The video couldn't be loaded…"
             retry={() => nextVideoFetch.retry()}
           />
           : value?.status === 'ALL_DONE'
             ? <AllDoneOuter>
               <div>
-                Das war's!
-                Sie haben schon alle Videos angeschaut.
+                That was it.
               </div>
               <div>
-                Vielen Dank für Ihre Zeit!
+                Thank you for your time!
               </div>
               <Login large={true} />
             </AllDoneOuter>
@@ -163,7 +162,7 @@ const NextVideo: React.FC<{}> = (props) => {
               ? <>
                 {value.numDone != null &&
                 <Progress>
-                  {value.numDone + 1} von {value.numTotal}
+                  {value.numDone + 1} of {value.numTotal}
                 </Progress>}
                 <VideoOuter>
                   <DemoVideo preload="auto" autoPlay={true} controls loop>
@@ -179,12 +178,12 @@ const NextVideo: React.FC<{}> = (props) => {
                     onSubmit={formValues => handleSubmit(formValues, value.name)}
                   />
                   {!submitState.loading && submitState.error &&
-                  <SmallError>Oops… Etwas ist schief gelaufen. Versuchen Sie es bitte nochmals.</SmallError>
+                  <SmallError>Oops… Something went wrong. Please try again.</SmallError>
                   }
                 </div>
               </>
               : <ErrorBox
-                text="Oops… Etwas stimmt nicht…"
+                text="Oops… Something went wrong."
                 retry={() => nextVideoFetch.retry()}
               />
       }

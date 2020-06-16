@@ -50,7 +50,7 @@ const LogoutBox = () => {
            href="mailto:frederic.muench@charite.de?subject=LUS study"
            rel="noopener noreferrer"
            target="_blank"
-         >Fragen?</a>
+         >Questions?</a>
         <Login />
       </LogoutBoxLayout>
     : null;
