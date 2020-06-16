@@ -23,7 +23,7 @@ const Login: React.FC<{ large?: boolean }> = ({ large }) => {
     <Button
       large={large}
       onClick={handleIdentity}>
-      {isLoggedIn ? 'Sign out' : 'Sign in'}
+      {isLoggedIn ? 'Log out' : 'Log in'}
     </Button>
   )
 };
