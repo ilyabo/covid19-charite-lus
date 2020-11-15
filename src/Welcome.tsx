@@ -35,7 +35,7 @@ const Welcome = () => {
   return (
     <Outer>
       <Title>
-        Interobserver and intraobserver variability in point-of-care lung ultrasound of intensive care patients with confirmed Covid-19
+        LUS training - comparison study in COVID-19 patients
       </Title>
       <Login large={true} />
       <Subtitle>
