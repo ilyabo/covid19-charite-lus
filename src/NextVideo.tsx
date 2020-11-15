@@ -130,8 +130,7 @@ const NextVideo: React.FC<{}> = (props) => {
       nextVideoFetch.retry();
     }
   },
-    // eslint-disable-line react-hooks/exhaustive-deps
-    [submitState]
+    [submitState] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   const { loading, error, value } = nextVideoFetch;
