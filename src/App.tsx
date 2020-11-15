@@ -10,6 +10,8 @@ import Login from './Login';
 import Questionnaire from './Questionnaire';
 import QuestionnaireCheck from './QuestionnaireCheck';
 import ErrorBoundary from './ErrorBoundary';
+import TrainingPoster from './TrainingPoster';
+import TrainingVideo from './TrainingVideo';
 
 interface Props {
   component: React.FunctionComponent;
@@ -70,6 +72,8 @@ function App() {
               <PrivateRoute path="/home" component={Home} />
               <PrivateRoute path="/questionnaire" component={() => <QuestionnaireCheck><Questionnaire/></QuestionnaireCheck>} />
               <PrivateRoute path="/next-video" component={NextVideo} />
+              <PrivateRoute path="/training/poster" component={TrainingPoster} />
+              <PrivateRoute path="/training/video" component={TrainingVideo} />
             </Switch>
           </BrowserRouter>
           <LogoutBox/>
