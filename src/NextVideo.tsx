@@ -58,7 +58,10 @@ const Progress = styled.div`
   position: absolute;
   left: 10px;
   top: 10px;
-  font-size: small;
+  display: flex;
+  flex-direction: column;
+  div { font-size: small; }
+  & > *+* { margin-top: 10px; }
 `;
 
 const AllDoneOuter = styled.div`
@@ -174,7 +177,10 @@ const NextVideo: React.FC<{}> = (props) => {
               ? <>
                 {value.numDone != null &&
                 <Progress>
-                  {value.numDone + 1} of {value.numTotal}
+                  <ButtonLink to="/intro">&lt;&lt; Zur Einführung</ButtonLink>
+                  <div>
+                  {value.numDone + 1} von {value.numTotal}
+                  </div>
                 </Progress>}
                 <VideoOuter>
                   <DemoVideo preload="auto" autoPlay={true} controls loop>
@@ -184,7 +190,6 @@ const NextVideo: React.FC<{}> = (props) => {
                     fileName={value.name}
                   />
                   <BackButtonsSection>
-                    <ButtonLink to="/intro">&lt;&lt; Zurück zur Einführung</ButtonLink>
                     <ButtonA href={POSTER_URL} target="_blank">Poster (im neuen Fenster)</ButtonA>
                   </BackButtonsSection>
                 </VideoOuter>

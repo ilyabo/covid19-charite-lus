@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import Button, { ButtonLink } from './Button';
+import { ButtonLink } from './Button';
 import throaxLabelingImg from './images/thorax-labeling.png';
 
 const Outer = styled.div`

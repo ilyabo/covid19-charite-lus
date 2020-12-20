@@ -25,11 +25,6 @@ const StartSection = styled.div`
   justify-content: center;
 `;
 
-const Img = styled.img`
-  display: block;
-  margin: 20px auto 30px auto;
-`;
-
 
 const Home = () => {
 

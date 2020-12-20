@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
-import Button, { ButtonLink } from './Button';
+import Button from './Button';
 import { errorColor } from './colors';
 import Spinner from './Spinner';
 

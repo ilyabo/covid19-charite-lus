@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import styled from '@emotion/styled';
-import Button, { ButtonA, ButtonLink } from './Button';
+import { ButtonA, ButtonLink } from './Button';
 
 
 const Outer = styled.div`
