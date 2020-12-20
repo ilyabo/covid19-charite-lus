@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 .credentials
 .env
+
+# Local Netlify folder
+.netlify

@@ -10,8 +10,10 @@ The results are automatically saved to a Google spreadsheet.
 ### Development
 
 You need to install [Netlify CLI](https://docs.netlify.com/cli/get-started/).
+            
+Then run:
 
-    netlify dev
+    yarn dev
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3033](http://localhost:3033) to view it in the browser.
+
+Open [http://localhost:8888](http://localhost:8888) to view it in the browser.
