@@ -75,14 +75,16 @@ const RadioItem = styled.div`
 
 
 const fieldNames = [
-  'ErfahrungJahre',
-  'ErfahrungArzt',
-  'Fachrichtung',
+  // 'ErfahrungJahre',
+  // 'ErfahrungArzt',
+  // 'Fachrichtung',
   'ErfahrungSonoJahre',
   'Sonographien',
-  'LUS_insgesamt',
-  'LUS_COVID19',
-  'LUS_COVID19_Anzahl',
+  // 'LUS_insgesamt',
+  // 'LUS_COVID19',
+  // 'LUS_COVID19_Anzahl',
+  // 'KeineHilfsmittel',
+  // 'KeineLusErfahrung',
 ];
 
 const FieldError = styled.div`
@@ -122,6 +124,8 @@ const Questionnaire: React.FC<{}> = (props) => {
       LUS_insgesamt: null,
       LUS_COVID19: null,
       LUS_COVID19_Anzahl: '',
+      KeineLusErfahrung: null,
+      KeineHilfsmittel: null,
     },
     validate: (values: any) => {
       const errors: any = {};
@@ -143,8 +147,10 @@ const Questionnaire: React.FC<{}> = (props) => {
       };
       validateNumber('ErfahrungJahre', 0, 99);
       validateNumber('ErfahrungSonoJahre', 0, 99);
-      validateNumber('LUS_COVID19_Anzahl', 0, 1000);
+      // validateNumber('LUS_COVID19_Anzahl', 0, 1000);
 
+      if (!values.KeineLusErfahrung?.includes('on')) errors.KeineLusErfahrung = true;
+      if (!values.KeineHilfsmittel?.includes('on')) errors.KeineHilfsmittel = true;
 
       return errors;
     },
@@ -156,123 +162,124 @@ const Questionnaire: React.FC<{}> = (props) => {
   return (
     <Outer>
       <h1>Fragebogen</h1>
-      <div>Bitte, beantworten Sie zuerst die folgenden Fragen:</div>
+      {/*<div>Bitte, beantworten Sie zuerst die folgenden Fragen:</div>*/}
       <StyledForm onSubmit={formik.handleSubmit}>
-        <Fieldset>
-          <legend>Klinische Erfahrung</legend>
-          <FieldsetItems>
-            <FormRow>
-              <FormItem error={!!(formik.touched.ErfahrungJahre && formik.errors.ErfahrungJahre)}>
-                <input
-                  id="ErfahrungJahre"
-                  name="ErfahrungJahre"
-                  type="text"
-                  onChange={formik.handleChange}
-                  disabled={disabled}
-                  value={formik.values.ErfahrungJahre}
-                  style={{ width: 30, fontSize: '15px' }}
-                />
-                <label>Jahre</label>
-              </FormItem>
-            </FormRow>
-            <FormRow>
-              <FormItem error={!!(formik.touched.ErfahrungArzt && formik.errors.ErfahrungArzt)}>
-                <RadioItem>
-                  <input
-                    id="assistenzarzt"
-                    name="ErfahrungArzt"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value="Assistenzarzt"
-                    checked={formik.values.ErfahrungArzt === 'Assistenzarzt'}
-                  />
-                  <label htmlFor="assistenzarzt">Assistenzarzt</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="facharzt"
-                    name="ErfahrungArzt"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value="Facharzt"
-                    checked={formik.values.ErfahrungArzt === 'Facharzt'}
-                  />
-                  <label htmlFor="facharzt">Facharzt</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="Prä-Kliniker"
-                    name="ErfahrungArzt"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value="Prä-Kliniker"
-                    checked={formik.values.ErfahrungArzt === 'Prä-Kliniker'}
-                  />
-                  <label htmlFor="Prä-Kliniker">Prä-Kliniker</label>
-                </RadioItem>
-              </FormItem>
-            </FormRow>
-            {formik.touched.ErfahrungJahre && formik.errors.ErfahrungJahre &&
-              <FieldError>{formik.errors.ErfahrungJahre}</FieldError>
-            }
-            {formik.touched.ErfahrungArzt && formik.errors.ErfahrungArzt &&
-              <FieldError>{formik.errors.ErfahrungArzt}</FieldError>
-            }
-          </FieldsetItems>
-        </Fieldset>
+
+        {/*<Fieldset>*/}
+        {/*  <legend>Klinische Erfahrung</legend>*/}
+        {/*  <FieldsetItems>*/}
+        {/*    <FormRow>*/}
+        {/*      <FormItem error={!!(formik.touched.ErfahrungJahre && formik.errors.ErfahrungJahre)}>*/}
+        {/*        <input*/}
+        {/*          id="ErfahrungJahre"*/}
+        {/*          name="ErfahrungJahre"*/}
+        {/*          type="text"*/}
+        {/*          onChange={formik.handleChange}*/}
+        {/*          disabled={disabled}*/}
+        {/*          value={formik.values.ErfahrungJahre}*/}
+        {/*          style={{ width: 30, fontSize: '15px' }}*/}
+        {/*        />*/}
+        {/*        <label>Jahre</label>*/}
+        {/*      </FormItem>*/}
+        {/*    </FormRow>*/}
+        {/*    <FormRow>*/}
+        {/*      <FormItem error={!!(formik.touched.ErfahrungArzt && formik.errors.ErfahrungArzt)}>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="assistenzarzt"*/}
+        {/*            name="ErfahrungArzt"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value="Assistenzarzt"*/}
+        {/*            checked={formik.values.ErfahrungArzt === 'Assistenzarzt'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="assistenzarzt">Assistenzarzt</label>*/}
+        {/*        </RadioItem>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="facharzt"*/}
+        {/*            name="ErfahrungArzt"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value="Facharzt"*/}
+        {/*            checked={formik.values.ErfahrungArzt === 'Facharzt'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="facharzt">Facharzt</label>*/}
+        {/*        </RadioItem>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="Prä-Kliniker"*/}
+        {/*            name="ErfahrungArzt"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value="Prä-Kliniker"*/}
+        {/*            checked={formik.values.ErfahrungArzt === 'Prä-Kliniker'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="Prä-Kliniker">Prä-Kliniker</label>*/}
+        {/*        </RadioItem>*/}
+        {/*      </FormItem>*/}
+        {/*    </FormRow>*/}
+        {/*    {formik.touched.ErfahrungJahre && formik.errors.ErfahrungJahre &&*/}
+        {/*      <FieldError>{formik.errors.ErfahrungJahre}</FieldError>*/}
+        {/*    }*/}
+        {/*    {formik.touched.ErfahrungArzt && formik.errors.ErfahrungArzt &&*/}
+        {/*      <FieldError>{formik.errors.ErfahrungArzt}</FieldError>*/}
+        {/*    }*/}
+        {/*  </FieldsetItems>*/}
+        {/*</Fieldset>*/}
 
 
-        <Fieldset>
-          <legend>Fachrichtung</legend>
-          <FieldsetItems>
-            <FormRow>
-              <FormItem error={!!(formik.touched.Fachrichtung && formik.errors.Fachrichtung)}>
-                <RadioItem>
-                  <input
-                    id="Intensivmedizin"
-                    name="Fachrichtung"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value="Intensivmedizin"
-                    checked={formik.values.Fachrichtung === 'Intensivmedizin'}
-                  />
-                  <label htmlFor="Intensivmedizin">Intensivmedizin</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="Notfallmedizin"
-                    name="Fachrichtung"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value="Notfallmedizin"
-                    checked={formik.values.Fachrichtung === 'Notfallmedizin'}
-                  />
-                  <label htmlFor="Notfallmedizin">Notfallmedizin</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="Forschung"
-                    name="Fachrichtung"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value="Forschung"
-                    checked={formik.values.Fachrichtung === 'Forschung'}
-                  />
-                  <label htmlFor="Forschung">Forschung</label>
-                </RadioItem>
-              </FormItem>
-            </FormRow>
-            {formik.touched.Fachrichtung && formik.errors.Fachrichtung &&
-              <FieldError>{formik.errors.Fachrichtung}</FieldError>
-            }
-          </FieldsetItems>
-        </Fieldset>
+        {/*<Fieldset>*/}
+        {/*  <legend>Fachrichtung</legend>*/}
+        {/*  <FieldsetItems>*/}
+        {/*    <FormRow>*/}
+        {/*      <FormItem error={!!(formik.touched.Fachrichtung && formik.errors.Fachrichtung)}>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="Intensivmedizin"*/}
+        {/*            name="Fachrichtung"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value="Intensivmedizin"*/}
+        {/*            checked={formik.values.Fachrichtung === 'Intensivmedizin'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="Intensivmedizin">Intensivmedizin</label>*/}
+        {/*        </RadioItem>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="Notfallmedizin"*/}
+        {/*            name="Fachrichtung"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value="Notfallmedizin"*/}
+        {/*            checked={formik.values.Fachrichtung === 'Notfallmedizin'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="Notfallmedizin">Notfallmedizin</label>*/}
+        {/*        </RadioItem>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="Forschung"*/}
+        {/*            name="Fachrichtung"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value="Forschung"*/}
+        {/*            checked={formik.values.Fachrichtung === 'Forschung'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="Forschung">Forschung</label>*/}
+        {/*        </RadioItem>*/}
+        {/*      </FormItem>*/}
+        {/*    </FormRow>*/}
+        {/*    {formik.touched.Fachrichtung && formik.errors.Fachrichtung &&*/}
+        {/*      <FieldError>{formik.errors.Fachrichtung}</FieldError>*/}
+        {/*    }*/}
+        {/*  </FieldsetItems>*/}
+        {/*</Fieldset>*/}
 
 
         <Fieldset>
@@ -300,46 +307,25 @@ const Questionnaire: React.FC<{}> = (props) => {
 
 
         <Fieldset>
-          <legend>Sonographien insgesamt (inkl. TTE)</legend>
+          <legend>Sonographien insgesamt</legend>
           <FieldsetItems>
             <FormRow>
               <FormItem error={!!(formik.touched.Sonographien && formik.errors.Sonographien)}>
-                <RadioItem>
-                  <input
-                    id="Sonographien_1000"
-                    name="Sonographien"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value=">1000"
-                    checked={formik.values.Sonographien === '>1000'}
-                  />
-                  <label htmlFor="Sonographien_1000">&gt; 1000</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="Sonographien_5000"
-                    name="Sonographien"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value=">5000"
-                    checked={formik.values.Sonographien === '>5000'}
-                  />
-                  <label htmlFor="Sonographien_5000">&gt; 5000</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="Sonographien_10000"
-                    name="Sonographien"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value=">10000"
-                    checked={formik.values.Sonographien === '>10000'}
-                  />
-                  <label htmlFor="Sonographien_10000">&gt; 10000</label>
-                </RadioItem>
+
+                { [100,1000,5000].map(num =>
+                  <RadioItem>
+                    <input
+                      id={`Sonographien_${num}`}
+                      name="Sonographien"
+                      type="radio"
+                      disabled={disabled}
+                      onChange={formik.handleChange}
+                      value={`>${num}`}
+                      checked={formik.values.Sonographien === `>${num}`}
+                    />
+                    <label htmlFor={`Sonographien_${num}`}>&gt; {num}</label>
+                  </RadioItem>)
+                }
                 <RadioItem>
                   <input
                     id="Sonographien_unzutreffend"
@@ -361,150 +347,173 @@ const Questionnaire: React.FC<{}> = (props) => {
         </Fieldset>
 
 
-        <Fieldset>
-          <legend>Lung ultrasound insgesamt</legend>
-          <FieldsetItems>
-            <FormRow>
-              <FormItem error={!!(formik.touched.LUS_insgesamt && formik.errors.LUS_insgesamt)}>
-                <RadioItem>
-                  <input
-                    id="lus_insgesamt_100"
-                    name="LUS_insgesamt"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value=">100"
-                    checked={formik.values.LUS_insgesamt === '>100'}
-                  />
-                  <label htmlFor="lus_insgesamt_100">&gt; 100</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="lus_insgesamt_500"
-                    name="LUS_insgesamt"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value=">500"
-                    checked={formik.values.LUS_insgesamt === '>500'}
-                  />
-                  <label htmlFor="lus_insgesamt_500">&gt; 500</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="lus_insgesamt_1000"
-                    name="LUS_insgesamt"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value=">1000"
-                    checked={formik.values.LUS_insgesamt === '>1000'}
-                  />
-                  <label htmlFor="lus_insgesamt_1000">&gt; 1000</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="lus_insgesamt_unzutreffend"
-                    name="LUS_insgesamt"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value="unzutreffend"
-                    checked={formik.values.LUS_insgesamt === 'unzutreffend'}
-                  />
-                  <label htmlFor="lus_insgesamt_unzutreffend">unzutreffend</label>
-                </RadioItem>
-              </FormItem>
-            </FormRow>
-            {formik.touched.LUS_insgesamt && formik.errors.LUS_insgesamt &&
-              <FieldError>{formik.errors.LUS_insgesamt}</FieldError>
-            }
-          </FieldsetItems>
-        </Fieldset>
+        {/*<Fieldset>*/}
+        {/*  <legend>Lung ultrasound insgesamt</legend>*/}
+        {/*  <FieldsetItems>*/}
+        {/*    <FormRow>*/}
+        {/*      <FormItem error={!!(formik.touched.LUS_insgesamt && formik.errors.LUS_insgesamt)}>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="lus_insgesamt_100"*/}
+        {/*            name="LUS_insgesamt"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value=">100"*/}
+        {/*            checked={formik.values.LUS_insgesamt === '>100'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="lus_insgesamt_100">&gt; 100</label>*/}
+        {/*        </RadioItem>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="lus_insgesamt_500"*/}
+        {/*            name="LUS_insgesamt"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value=">500"*/}
+        {/*            checked={formik.values.LUS_insgesamt === '>500'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="lus_insgesamt_500">&gt; 500</label>*/}
+        {/*        </RadioItem>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="lus_insgesamt_1000"*/}
+        {/*            name="LUS_insgesamt"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value=">1000"*/}
+        {/*            checked={formik.values.LUS_insgesamt === '>1000'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="lus_insgesamt_1000">&gt; 1000</label>*/}
+        {/*        </RadioItem>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="lus_insgesamt_unzutreffend"*/}
+        {/*            name="LUS_insgesamt"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value="unzutreffend"*/}
+        {/*            checked={formik.values.LUS_insgesamt === 'unzutreffend'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="lus_insgesamt_unzutreffend">unzutreffend</label>*/}
+        {/*        </RadioItem>*/}
+        {/*      </FormItem>*/}
+        {/*    </FormRow>*/}
+        {/*    {formik.touched.LUS_insgesamt && formik.errors.LUS_insgesamt &&*/}
+        {/*      <FieldError>{formik.errors.LUS_insgesamt}</FieldError>*/}
+        {/*    }*/}
+        {/*  </FieldsetItems>*/}
+        {/*</Fieldset>*/}
 
 
-        <Fieldset>
-          <legend>LUS bei Covid19</legend>
-          <FieldsetItems>
-            <FormRow>
-              <FormItem error={!!(formik.touched.LUS_COVID19 && formik.errors.LUS_COVID19)}>
-                <RadioItem>
-                  <input
-                    id="lus_covid19_10"
-                    name="LUS_COVID19"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value=">10"
-                    checked={formik.values.LUS_COVID19 === '>10'}
-                  />
-                  <label htmlFor="lus_covid19_10">&gt; 10</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="lus_covid19_100"
-                    name="LUS_COVID19"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value=">100"
-                    checked={formik.values.LUS_COVID19 === '>100'}
-                  />
-                  <label htmlFor="lus_covid19_100">&gt; 100</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="lus_covid19_300"
-                    name="LUS_COVID19"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value=">300"
-                    checked={formik.values.LUS_COVID19 === '>300'}
-                  />
-                  <label htmlFor="lus_covid19_300">&gt; 300</label>
-                </RadioItem>
-                <RadioItem>
-                  <input
-                    id="lus_covid19_unzutreffend"
-                    name="LUS_COVID19"
-                    type="radio"
-                    disabled={disabled}
-                    onChange={formik.handleChange}
-                    value="unzutreffend"
-                    checked={formik.values.LUS_COVID19 === 'unzutreffend'}
-                  />
-                  <label htmlFor="lus_covid19_unzutreffend">unzutreffend</label>
-                </RadioItem>
-              </FormItem>
-            </FormRow>
-            <FormRow>
-              <FormItem error={!!(formik.touched.LUS_COVID19_Anzahl && formik.errors.LUS_COVID19_Anzahl)}>
-                <label>Geschätzte Anzahl:</label>
-                <input
-                  disabled={disabled}
-                  id="LUS_COVID19_Anzahl"
-                  name="LUS_COVID19_Anzahl"
-                  type="text"
-                  onChange={formik.handleChange}
-                  value={formik.values.LUS_COVID19_Anzahl}
-                  style={{ width: 60, fontSize: '15px' }}
-                />
-              </FormItem>
-            </FormRow>
-            {formik.touched.LUS_COVID19 && formik.errors.LUS_COVID19 &&
-              <FieldError>{formik.errors.LUS_COVID19}</FieldError>
-            }
-            {formik.touched.LUS_COVID19_Anzahl && formik.errors.LUS_COVID19_Anzahl &&
-              <FieldError>{formik.errors.LUS_COVID19_Anzahl}</FieldError>
-            }
-          </FieldsetItems>
-        </Fieldset>
+        {/*<Fieldset>*/}
+        {/*  <legend>LUS bei Covid19</legend>*/}
+        {/*  <FieldsetItems>*/}
+        {/*    <FormRow>*/}
+        {/*      <FormItem error={!!(formik.touched.LUS_COVID19 && formik.errors.LUS_COVID19)}>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="lus_covid19_10"*/}
+        {/*            name="LUS_COVID19"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value=">10"*/}
+        {/*            checked={formik.values.LUS_COVID19 === '>10'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="lus_covid19_10">&gt; 10</label>*/}
+        {/*        </RadioItem>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="lus_covid19_100"*/}
+        {/*            name="LUS_COVID19"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value=">100"*/}
+        {/*            checked={formik.values.LUS_COVID19 === '>100'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="lus_covid19_100">&gt; 100</label>*/}
+        {/*        </RadioItem>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="lus_covid19_300"*/}
+        {/*            name="LUS_COVID19"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value=">300"*/}
+        {/*            checked={formik.values.LUS_COVID19 === '>300'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="lus_covid19_300">&gt; 300</label>*/}
+        {/*        </RadioItem>*/}
+        {/*        <RadioItem>*/}
+        {/*          <input*/}
+        {/*            id="lus_covid19_unzutreffend"*/}
+        {/*            name="LUS_COVID19"*/}
+        {/*            type="radio"*/}
+        {/*            disabled={disabled}*/}
+        {/*            onChange={formik.handleChange}*/}
+        {/*            value="unzutreffend"*/}
+        {/*            checked={formik.values.LUS_COVID19 === 'unzutreffend'}*/}
+        {/*          />*/}
+        {/*          <label htmlFor="lus_covid19_unzutreffend">unzutreffend</label>*/}
+        {/*        </RadioItem>*/}
+        {/*      </FormItem>*/}
+        {/*    </FormRow>*/}
+        {/*    <FormRow>*/}
+        {/*      <FormItem error={!!(formik.touched.LUS_COVID19_Anzahl && formik.errors.LUS_COVID19_Anzahl)}>*/}
+        {/*        <label>Geschätzte Anzahl:</label>*/}
+        {/*        <input*/}
+        {/*          disabled={disabled}*/}
+        {/*          id="LUS_COVID19_Anzahl"*/}
+        {/*          name="LUS_COVID19_Anzahl"*/}
+        {/*          type="text"*/}
+        {/*          onChange={formik.handleChange}*/}
+        {/*          value={formik.values.LUS_COVID19_Anzahl}*/}
+        {/*          style={{ width: 60, fontSize: '15px' }}*/}
+        {/*        />*/}
+        {/*      </FormItem>*/}
+        {/*    </FormRow>*/}
+        {/*    {formik.touched.LUS_COVID19 && formik.errors.LUS_COVID19 &&*/}
+        {/*      <FieldError>{formik.errors.LUS_COVID19}</FieldError>*/}
+        {/*    }*/}
+        {/*    {formik.touched.LUS_COVID19_Anzahl && formik.errors.LUS_COVID19_Anzahl &&*/}
+        {/*      <FieldError>{formik.errors.LUS_COVID19_Anzahl}</FieldError>*/}
+        {/*    }*/}
+        {/*  </FieldsetItems>*/}
+        {/*</Fieldset>*/}
+
+        <FormRow>
+          <FormItem error={!!formik.errors.KeineLusErfahrung}>
+            <input id="KeineLusErfahrung" name="KeineLusErfahrung" type="checkbox"
+                   onChange={formik.handleChange}
+            />
+            <label htmlFor="KeineLusErfahrung">Ich versichere, dass ich keine Vor-Erfahrungen mit Lungenultraschall habe.</label>
+          </FormItem>
+        </FormRow>
+        <FormRow>
+          <FormItem error={!!formik.errors.KeineHilfsmittel}>
+            <input id="KeineHilfsmittel" name="KeineHilfsmittel" type="checkbox"
+                   onChange={formik.handleChange}/>
+            <label htmlFor="KeineHilfsmittel" style={{lineHeight: 1.2}}>
+              Ich versichere, dass ich keine zusätzlichen Hilfsmittel (als die hier im Tool angebotenen) für die Auswertung anwenden werde.
+            (kein Youtube, kein Buch, etc.)
+            </label>
+          </FormItem>
+        </FormRow>
+
+
         { Object.keys(formik.touched).length > 0 &&
           Object.keys(formik.errors).length > 0 &&
           <FieldError>Bitte, korrigieren Sie die Fehler oben im Formular.</FieldError>
         }
       </StyledForm>
+
+
       <FormRow>
         <Button
           type="submit"

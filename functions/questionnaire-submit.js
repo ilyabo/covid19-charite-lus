@@ -1,14 +1,15 @@
 const { QUESTIONNAIRE_SHEET, getNowFormatted, loadSpreadsheet, findSheetByName } = require('./common');
 
 const fieldNames = [
-  'ErfahrungJahre',
-  'ErfahrungArzt',
-  'Fachrichtung',
+  'Gruppe',
+  // 'ErfahrungJahre',
+  // 'ErfahrungArzt',
+  // 'Fachrichtung',
   'ErfahrungSonoJahre',
   'Sonographien',
-  'LUS_insgesamt',
-  'LUS_COVID19',
-  'LUS_COVID19_Anzahl'
+  // 'LUS_insgesamt',
+  // 'LUS_COVID19',
+  // 'LUS_COVID19_Anzahl'
 ];
 
 exports.handler = async (event, context, callback) => {
@@ -32,9 +33,11 @@ exports.handler = async (event, context, callback) => {
       });
     }
 
+
     const body = JSON.parse(event.body);
     await sheet.addRow({
       ...body.values,
+      Gruppe: Math.round(Math.random()) + 1,
       user: user.email,
       time: getNowFormatted(),
     });
