@@ -42,6 +42,14 @@ export const ButtonLink = styled(Link)<ButtonStyleProps>(
     text-decoration: none;
   `
 );
+
+export const ButtonA = styled.a<ButtonStyleProps>(
+  getButtonStyles,
+  `
+    color: white !important;
+    text-decoration: none;
+  `
+);
 const Button = styled.button<ButtonStyleProps>(getButtonStyles);
 
 export default Button;

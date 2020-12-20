@@ -20,11 +20,15 @@ exports.handler = async (event, context, callback) => {
     }
 
     const rows = await sheet.getRows();
-    hasSubmitted = rows.some(row => row.user === user.email);
+    const found = rows.find(row => row.user === user.email);
+    const hasSubmitted = found != null;
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ hasSubmitted }),
+      body: JSON.stringify({
+        hasSubmitted,
+        group: found ? found.Gruppe : undefined,
+      }),
     }
   } catch (e) {
     if (process.env.NODE_ENV === 'development') console.error(e);

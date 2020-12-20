@@ -12,6 +12,8 @@ import QuestionnaireCheck from './QuestionnaireCheck';
 import ErrorBoundary from './ErrorBoundary';
 import TrainingPoster from './TrainingPoster';
 import TrainingVideo from './TrainingVideo';
+import Training from './Training';
+import Intro from './Intro';
 
 interface Props {
   component: React.FunctionComponent;
@@ -70,10 +72,44 @@ function App() {
               {/*<PublicRoute path="/createaccount" component={CreateAccount} />*/}
               {/*<PublicRoute path="/login" component={LogIn} />*/}
               <PrivateRoute path="/home" component={Home} />
-              <PrivateRoute path="/questionnaire" component={() => <QuestionnaireCheck><Questionnaire/></QuestionnaireCheck>} />
+              <PrivateRoute
+                path="/questionnaire"
+                component={() =>
+                  <QuestionnaireCheck
+                    redirectIfSubmitted="/training"
+                    renderChildren={() => <Questionnaire/>}
+                  />
+                }
+              />
+              <PrivateRoute
+                path="/training/poster"
+                component={() =>
+                  <QuestionnaireCheck
+                    redirectIfNotSubmitted="/home"
+                    renderChildren={({ group }) => <TrainingPoster group={group} />}
+                  />
+                }
+              />
+              <PrivateRoute path="/training/webinar" component={TrainingVideo} />
+              <PrivateRoute
+                path="/training"
+                component={() =>
+                  <QuestionnaireCheck
+                    redirectIfNotSubmitted="/home"
+                    renderChildren={({ group }) => <Training group={group} />}
+                  />
+                }
+              />
+              <PrivateRoute
+                path="/intro"
+                component={() =>
+                  <QuestionnaireCheck
+                    redirectIfNotSubmitted="/home"
+                    renderChildren={({ group }) => <Intro group={group} />}
+                  />
+                }
+              />
               <PrivateRoute path="/next-video" component={NextVideo} />
-              <PrivateRoute path="/training/poster" component={TrainingPoster} />
-              <PrivateRoute path="/training/video" component={TrainingVideo} />
             </Switch>
           </BrowserRouter>
           <LogoutBox/>

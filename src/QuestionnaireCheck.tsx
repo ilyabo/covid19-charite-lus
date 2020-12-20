@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAsyncRetry } from 'react-use';
 import fetchApi from './fetchApi';
 import Spinner from './Spinner';
 import { ErrorBox } from './errors';
 import { useIdentityContext } from 'react-netlify-identity';
+import { useHistory } from 'react-router-dom';
 
 const Outer = styled.div`
   position: absolute;
@@ -18,29 +19,57 @@ const Outer = styled.div`
   & > *+* { margin-top: 40px; }
 `;
 
-const QuestionnaireCheck: React.FC<{}> = (props) => {
+export interface QuestionnaireCheckResult {
+  hasSubmitted: boolean;
+  group: string;
+}
+
+const QuestionnaireCheck: React.FC<
+  {
+    redirectIfSubmitted?: string;
+    redirectIfNotSubmitted?: string;
+    renderChildren: (result: QuestionnaireCheckResult) => React.ReactNode;
+  }> = (props) => {
+  const { redirectIfSubmitted, redirectIfNotSubmitted } = props;
   const {user} = useIdentityContext();
   const checkFetch = useAsyncRetry(async () => {
     return await fetchApi('questionnaire-check', user, {
       method: 'POST'
     });
   }, []);
+  const history = useHistory();
+  const [redirecting, setRedirecting] = useState(false);
+
   useEffect(() => {
     if (!checkFetch.loading && checkFetch.value) {
       const { hasSubmitted } = checkFetch.value;
       if (hasSubmitted) {
-        document.location.href = '/next-video';
+        if (redirectIfSubmitted) {
+          history.push(redirectIfSubmitted, checkFetch.value);
+          setRedirecting(true);
+        }
+      } else {
+        if (redirectIfNotSubmitted) {
+          history.push(redirectIfNotSubmitted, checkFetch.value);
+          setRedirecting(true);
+        }
       }
     }
-  }, [checkFetch.loading, checkFetch.value]);
+  }, [
+    checkFetch.loading,
+    checkFetch.value,
+    history,
+    redirectIfSubmitted,
+    redirectIfNotSubmitted,
+  ]);
 
   return (
     <>
-      {!checkFetch.loading && checkFetch.value && !checkFetch.value.hasSubmitted
-        ? props.children
+      {!checkFetch.loading && checkFetch.value && !redirecting
+        ? props.renderChildren(checkFetch.value)
         :
         <Outer>
-          {checkFetch.loading && <Spinner/>}
+          {(checkFetch.loading || redirecting) && <Spinner/>}
           {!checkFetch.loading && checkFetch.error &&
             <ErrorBox
               text="Oops, etwas ist schief gelaufen.…"

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
-import Button from './Button';
+import Button, { ButtonLink } from './Button';
 import { errorColor } from './colors';
 import Spinner from './Spinner';
 
@@ -38,7 +38,8 @@ const FormRow = styled.div`
   }
 `;
 const SubmitRow = styled(FormRow)`
-  justify-content: flex-start;          
+  justify-content: flex-start;
+  align-items: center;          
   & > *+* { margin-left: 15px; }
 `;
 
@@ -166,7 +167,7 @@ const GradingForm: React.FC<
                 }}
                 checked={formik.values.pat_blines1}
               />
-              <label htmlFor="pat_blines1">B-lines isolated &lt; 4 lines</label>
+              <label htmlFor="pat_blines1">B-lines isolated ≤ 4 lines</label>
             </FormRow>
             <FormRow>
               <input
@@ -291,7 +292,7 @@ const GradingForm: React.FC<
           disabled={props.isLoading}
           large={true}
           onClick={props.isLoading ? undefined : () => formik.submitForm()}
-        >Submit</Button>
+        >Abschicken</Button>
         {isLoading &&
           <Spinner/>
         }

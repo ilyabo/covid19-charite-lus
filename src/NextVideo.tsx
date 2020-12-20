@@ -8,6 +8,8 @@ import fetchApi from './fetchApi';
 import Spinner from './Spinner';
 import { errorColor } from './colors';
 import { ErrorBox } from './errors';
+import { ButtonA, ButtonLink } from './Button';
+import { POSTER_URL } from './TrainingPoster';
 
 
 type NextVideoResponse =
@@ -69,6 +71,10 @@ const AllDoneOuter = styled.div`
 `;
 
 const VideoOuter = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  & > * + * { margin-top: 10px; }
   flex-grow: 1;
   max-width: 910px;
   position: relative;
@@ -100,6 +106,14 @@ const ThoraxLabel = styled(({ fileName, ...props }) => {
   font-size: 25px;
   font-weight: bold;
 `;
+
+const BackButtonsSection = styled.div`
+  display: flex;
+  justify-content: center;
+  & > *+* { margin-left: 10px; }
+  align-items: center;
+`;
+
 
 const NextVideo: React.FC<{}> = (props) => {
 
@@ -139,7 +153,6 @@ const NextVideo: React.FC<{}> = (props) => {
     <Outer>
       {loading
         ? <LoadingOuter>
-            <div>Loading the next video…</div>
             <Spinner/>
           </LoadingOuter>
         : error
@@ -170,6 +183,10 @@ const NextVideo: React.FC<{}> = (props) => {
                   <ThoraxLabel
                     fileName={value.name}
                   />
+                  <BackButtonsSection>
+                    <ButtonLink to="/intro">&lt;&lt; Zurück zur Einführung</ButtonLink>
+                    <ButtonA href={POSTER_URL} target="_blank">Poster (im neuen Fenster)</ButtonA>
+                  </BackButtonsSection>
                 </VideoOuter>
                 <div>
                   <GradingForm

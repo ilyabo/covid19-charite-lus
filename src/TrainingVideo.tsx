@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled';
+import { ButtonLink } from './Button';
 
 
 const Outer = styled.div`
@@ -12,9 +13,12 @@ const Outer = styled.div`
   justify-content: center;
 
   video {
-    width: 800px;
-    height: 450px;
+    height: 80%;
+    width: 80%;
   }  
+    flex-direction: column;
+  &> *+*{ margin-top: 20px; }
+  
 `;
 
 
@@ -26,8 +30,8 @@ const TrainingVideo = () => {
         <source
           src={url}
         />
-
       </video>
+      <ButtonLink large to="/intro">Weiter &gt;&gt;</ButtonLink>
     </Outer>
   )
 }

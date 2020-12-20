@@ -2,14 +2,10 @@ const { QUESTIONNAIRE_SHEET, getNowFormatted, loadSpreadsheet, findSheetByName }
 
 const fieldNames = [
   'Gruppe',
-  // 'ErfahrungJahre',
-  // 'ErfahrungArzt',
-  // 'Fachrichtung',
+  'TaetigkeitArt',
+  'TaetigkeitJahre',
   'ErfahrungSonoJahre',
   'Sonographien',
-  // 'LUS_insgesamt',
-  // 'LUS_COVID19',
-  // 'LUS_COVID19_Anzahl'
 ];
 
 exports.handler = async (event, context, callback) => {
