@@ -29,11 +29,12 @@ exports.handler = async (event, context, callback) => {
       });
     }
 
+    const rows = await sheet.getRows();
 
     const body = JSON.parse(event.body);
     await sheet.addRow({
       ...body.values,
-      Gruppe: Math.round(Math.random()) + 1,
+      Gruppe: 1 + (rows.length % 2),
       user: user.email,
       time: getNowFormatted(),
     });
