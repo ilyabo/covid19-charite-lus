@@ -2,6 +2,7 @@ const { QUESTIONNAIRE_SHEET, getNowFormatted, loadSpreadsheet, findSheetByName }
 
 const fieldNames = [
   'Gruppe',
+  'Institution',
   'TaetigkeitArt',
   'TaetigkeitJahre',
   'ErfahrungSonoJahre',

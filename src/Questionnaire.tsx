@@ -56,7 +56,6 @@ const FormRow = styled.div`
 const FormItem = styled.div<{ error?: boolean }>(({ error }) => `
   display: flex;
   flex-direction: row;
-  align-items: center;
   & > *+* { margin-left: 10px; }
   ${error 
   ? `
@@ -89,6 +88,7 @@ const RadioItem = styled.div`
 
 
 const fieldNames = [
+  'Institution',
   'TaetigkeitArt',
   'TaetigkeitJahre',
   'ErfahrungSonoJahre',
@@ -126,10 +126,13 @@ const Questionnaire: React.FC<{}> = (props) => {
 
   const formik = useFormik({
     initialValues: {
+      Institution: '',
       TaetigkeitArt: '',
       TaetigkeitJahre: '',
       ErfahrungSonoJahre: '',
       Sonographien: '',
+      MoeglichkeitAbzubrechen: null,
+      Einverstanden: null,
       KeineLusErfahrung: null,
       KeineHilfsmittel: null,
     },
@@ -155,6 +158,8 @@ const Questionnaire: React.FC<{}> = (props) => {
       validateNumber('ErfahrungSonoJahre', 0, 99);
       // validateNumber('LUS_COVID19_Anzahl', 0, 1000);
 
+      if (!values.MoeglichkeitAbzubrechen?.includes('on')) errors.MoeglichkeitAbzubrechen = true;
+      if (!values.Einverstanden?.includes('on')) errors.Einverstanden = true;
       if (!values.KeineLusErfahrung?.includes('on')) errors.KeineLusErfahrung = true;
       if (!values.KeineHilfsmittel?.includes('on')) errors.KeineHilfsmittel = true;
 
@@ -167,15 +172,73 @@ const Questionnaire: React.FC<{}> = (props) => {
   const disabled = submitState.loading;
   return (
     <Outer>
-      <h1>Fragebogen</h1>
-      {/*<div>Bitte, beantworten Sie zuerst die folgenden Fragen:</div>*/}
       <StyledForm onSubmit={formik.handleSubmit}>
+      <h1>Studienteilnahme</h1>
+
+        <FormRow>
+          <FormItem error={formik.touched.Einverstanden && !!formik.errors.Einverstanden}>
+            <input id="Einverstanden" name="Einverstanden" type="checkbox"
+                   onChange={formik.handleChange}
+            />
+            <label htmlFor="Einverstanden"  style={{lineHeight: 1.2}}>Ich erkläre mich damit einverstanden, an der Studie teilzunehmen. Meine Teilnahme erfolgt freiwillig.</label>
+          </FormItem>
+        </FormRow>
+        <FormRow>
+          <FormItem error={formik.touched.MoeglichkeitAbzubrechen && !!formik.errors.MoeglichkeitAbzubrechen}>
+            <input id="MoeglichkeitAbzubrechen" name="MoeglichkeitAbzubrechen" type="checkbox"
+                   onChange={formik.handleChange}/>
+            <label htmlFor="MoeglichkeitAbzubrechen" style={{lineHeight: 1.2}}>
+              Ich weiß, dass ich die Möglichkeit habe, meine Teilnahme an dieser Studie jederzeit und ohne Angabe
+              von Gründen abzubrechen, ohne dass mir daraus Nachteile entstehen. Ich erkläre, dass ich mit der im
+              Rahmen der Studie erfolgenden Aufzeichnung von Studiendaten und ihrer Verwendung in pseudo- bzw.
+              anonymisierter Form einverstanden bin.
+            </label>
+          </FormItem>
+        </FormRow>
+        <FormRow>
+          <FormItem error={formik.touched.KeineLusErfahrung && !!formik.errors.KeineLusErfahrung}>
+            <input id="KeineLusErfahrung" name="KeineLusErfahrung" type="checkbox"
+                   onChange={formik.handleChange}
+            />
+            <label htmlFor="KeineLusErfahrung" style={{lineHeight: 1.2}}>Ich versichere, dass ich keine Vor-Erfahrungen mit Lungenultraschall habe.</label>
+          </FormItem>
+        </FormRow>
+        <FormRow>
+          <FormItem error={formik.touched.KeineHilfsmittel && !!formik.errors.KeineHilfsmittel}>
+            <input id="KeineHilfsmittel" name="KeineHilfsmittel" type="checkbox"
+                   onChange={formik.handleChange}/>
+            <label htmlFor="KeineHilfsmittel" style={{lineHeight: 1.2}}>
+              Ich versichere, dass ich keine zusätzlichen Hilfsmittel (als die hier im Tool angebotenen) für die Auswertung anwenden werde.
+              (kein Youtube, kein Buch, etc.)
+            </label>
+          </FormItem>
+        </FormRow>
+
+        <br/><br/>
+
+        <h1>Fragebogen</h1>
+        {/*<div>Bitte, beantworten Sie zuerst die folgenden Fragen:</div>*/}
 
         <Fieldset>
           <legend>Tätigkeit im medizinischen Bereich</legend>
           <FieldsetItems>
+            <FormItemCol error={!!(formik.touched.Institution && formik.errors.Institution)}>
+              <label>Institution</label>
+              <input
+                id="Institution"
+                name=""
+                type="text"
+                onChange={formik.handleChange}
+                disabled={disabled}
+                value={formik.values.Institution}
+                style={{ width: 500, fontSize: '15px' }}
+              />
+            </FormItemCol>
+            {formik.touched.Institution && formik.errors.Institution &&
+              <FieldError>{formik.errors.Institution}</FieldError>
+            }
             <FormItemCol error={!!(formik.touched.TaetigkeitArt && formik.errors.TaetigkeitArt)}>
-              <label>Art der Tätigkeit (e.g. Tutor Sono, PJ-Student, etc.)</label>
+              <label>Art der Tätigkeit (e.g. Arzt, Tutor Sono, PJ-Student, etc.)</label>
               <input
                 id="TaetigkeitArt"
                 name=""
@@ -277,24 +340,6 @@ const Questionnaire: React.FC<{}> = (props) => {
         </Fieldset>
 
 
-        <FormRow>
-          <FormItem error={formik.touched.KeineLusErfahrung && !!formik.errors.KeineLusErfahrung}>
-            <input id="KeineLusErfahrung" name="KeineLusErfahrung" type="checkbox"
-                   onChange={formik.handleChange}
-            />
-            <label htmlFor="KeineLusErfahrung">Ich versichere, dass ich keine Vor-Erfahrungen mit Lungenultraschall habe.</label>
-          </FormItem>
-        </FormRow>
-        <FormRow>
-          <FormItem error={formik.touched.KeineHilfsmittel && !!formik.errors.KeineHilfsmittel}>
-            <input id="KeineHilfsmittel" name="KeineHilfsmittel" type="checkbox"
-                   onChange={formik.handleChange}/>
-            <label htmlFor="KeineHilfsmittel" style={{lineHeight: 1.2}}>
-              Ich versichere, dass ich keine zusätzlichen Hilfsmittel (als die hier im Tool angebotenen) für die Auswertung anwenden werde.
-            (kein Youtube, kein Buch, etc.)
-            </label>
-          </FormItem>
-        </FormRow>
 
 
         { Object.keys(formik.touched).length > 0 &&
