@@ -59,7 +59,7 @@ exports.handler = async (event, context, callback) => {
   try {
     const [userSubmissions, videos] = await Promise.all([
       await fetchUserSubmissions(user),
-      await fetchVideosList(),
+      (await fetchVideosList()).filter(row => row.name.startsWith('01_')),
     ]);
 
     const submissionsByVideo = countSubmissionsByVideoName(userSubmissions);
