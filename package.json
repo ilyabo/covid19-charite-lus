@@ -17,7 +17,7 @@
     "@types/react-router-dom": "^5.1.5",
     "formik": "^2.1.4",
     "google-spreadsheet": "^3.0.11",
-    "luxon": "^1.24.1",
+    "luxon": "^2.5.2",
     "netlify-identity-widget": "^1.6.0",
     "node-fetch": "^2.6.1",
     "react": "^16.13.1",
